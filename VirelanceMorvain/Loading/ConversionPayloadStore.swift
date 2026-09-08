@@ -1,5 +1,5 @@
 //
-//  AppsFlyerManager.swift
+//  ConversionPayloadStore.swift
 //  1TrulbargrovarStrinel
 //
 //  Менеджер AppsFlyer: получение данных конверсии и UDL, сохранение в строку для отправки на сервер.
@@ -14,38 +14,38 @@ extension Notification.Name {
 }
 
 /// Ключ для сохранения строки с данными конверсии (для отправки на сервер)
-enum AppsFlyerManagerKeys {
-    static let conversionDataString = "AppsFlyerConversionDataString"
-    static let conversionDataUpdatedAt = "AppsFlyerConversionDataUpdatedAt"
+enum ConversionStoreKeys {
+    static let conversionDataString = "ConversionPayloadString"
+    static let conversionDataUpdatedAt = "ConversionPayloadUpdatedAt"
 }
 
 /// Менеджер AppsFlyer: конверсия + UDL. Не изменяет набор параметров из ответа.
-final class AppsFlyerManager: NSObject {
+final class ConversionPayloadStore: NSObject {
 
-    static let shared = AppsFlyerManager()
+    static let shared = ConversionPayloadStore()
 
     /// Строка с данными конверсии (и при наличии — UDL) в формате JSON для отправки на сервер.
     /// Используются первые полученные значения при совпадении ключей (сначала конверсия, затем UDL).
     private(set) var conversionDataString: String? {
         get {
-            UserDefaults.standard.string(forKey: AppsFlyerManagerKeys.conversionDataString)
+            UserDefaults.standard.string(forKey: ConversionStoreKeys.conversionDataString)
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: AppsFlyerManagerKeys.conversionDataString)
+            UserDefaults.standard.set(newValue, forKey: ConversionStoreKeys.conversionDataString)
         }
     }
 
     /// Время последнего обновления conversionDataString (unix timestamp).
     private(set) var conversionDataUpdatedAt: TimeInterval? {
         get {
-            let value = UserDefaults.standard.double(forKey: AppsFlyerManagerKeys.conversionDataUpdatedAt)
+            let value = UserDefaults.standard.double(forKey: ConversionStoreKeys.conversionDataUpdatedAt)
             return value > 0 ? value : nil
         }
         set {
             if let newValue {
-                UserDefaults.standard.set(newValue, forKey: AppsFlyerManagerKeys.conversionDataUpdatedAt)
+                UserDefaults.standard.set(newValue, forKey: ConversionStoreKeys.conversionDataUpdatedAt)
             } else {
-                UserDefaults.standard.removeObject(forKey: AppsFlyerManagerKeys.conversionDataUpdatedAt)
+                UserDefaults.standard.removeObject(forKey: ConversionStoreKeys.conversionDataUpdatedAt)
             }
         }
     }

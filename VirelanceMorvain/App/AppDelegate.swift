@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
         if let app = FirebaseApp.app() {
-            ConfigManagerOptionalData.firebaseProjectId = app.options.gcmSenderID
+            GateOptionalPayload.firebaseProjectId = app.options.gcmSenderID
         }
     }
 
@@ -50,8 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
 
     private func capturePushURLFromLaunchOptions(_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
         guard let userInfo = launchOptions?[.remoteNotification] as? [AnyHashable: Any],
-              let url = PushNotificationURLRouter.shared.extractURL(from: userInfo) else { return }
-        PushNotificationURLRouter.shared.setPendingURL(url)
+              let url = PushDeepLinkBuffer.shared.extractURL(from: userInfo) else { return }
+        PushDeepLinkBuffer.shared.setPendingURL(url)
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -96,7 +96,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         let userInfo = response.notification.request.content.userInfo
-        if let url = PushNotificationURLRouter.shared.extractURL(from: userInfo) {
+        if let url = PushDeepLinkBuffer.shared.extractURL(from: userInfo) {
             DispatchQueue.main.async { [weak self] in
                 self?.openPushURLInWebView(url)
             }
@@ -108,22 +108,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         guard let scene = UIApplication.shared.connectedScenes
             .first(where: { $0.activationState == .foregroundActive || $0.activationState == .foregroundInactive }) as? UIWindowScene,
               let window = scene.windows.first(where: { $0.isKeyWindow }) ?? scene.windows.first else {
-            PushNotificationURLRouter.shared.setPendingURL(url)
+            PushDeepLinkBuffer.shared.setPendingURL(url)
             return
         }
-        window.rootViewController = WebviewVC(url: url)
+        window.rootViewController = PortalWebController(url: url)
     }
 }
 
 // MARK: - MessagingDelegate
 extension AppDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        ConfigManagerOptionalData.pushToken = fcmToken
+        GateOptionalPayload.pushToken = fcmToken
         if let app = FirebaseApp.app() {
-            ConfigManagerOptionalData.firebaseProjectId = app.options.gcmSenderID
+            GateOptionalPayload.firebaseProjectId = app.options.gcmSenderID
         }
-        if NotificationPermissionManager.shared.consumeShouldSendTokenOnce() {
-            ConfigManager.shared.requestConfig { _ in }
+        if AlertOptInCoordinator.shared.consumeShouldSendTokenOnce() {
+            RemoteGateConfig.shared.requestConfig { _ in }
         }
     }
 }
@@ -131,11 +131,11 @@ extension AppDelegate {
 // MARK: - AppsFlyerLibDelegate
 extension AppDelegate: AppsFlyerLibDelegate {
     func onConversionDataSuccess(_ installData: [AnyHashable: Any]) {
-        AppsFlyerManager.shared.handleConversionDataSuccess(installData)
+        ConversionPayloadStore.shared.handleConversionDataSuccess(installData)
     }
 
     func onConversionDataFail(_ error: Error!) {
-        AppsFlyerManager.shared.handleConversionDataFail(error)
+        ConversionPayloadStore.shared.handleConversionDataFail(error)
     }
 }
 
@@ -148,6 +148,6 @@ extension AppDelegate: DeepLinkDelegate {
             payload[key] = value
         }
         payload["is_deferred"] = deepLink.isDeferred
-        AppsFlyerManager.shared.handleDeepLinkData(payload)
+        ConversionPayloadStore.shared.handleDeepLinkData(payload)
     }
 }

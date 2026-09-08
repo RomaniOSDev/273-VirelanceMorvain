@@ -1,20 +1,20 @@
 import SwiftUI
 
-struct RecipeEditorView: View {
+struct PlantEditorView: View {
     @EnvironmentObject private var store: AppDataStore
     @Environment(\.dismiss) private var dismiss
 
-    let recipe: Recipe?
+    let plant: Plant?
 
     @State private var title = ""
     @State private var category = "Other"
-    @State private var cookTime = 20
-    @State private var servings = 2
-    @State private var difficulty: RecipeDifficulty = .medium
-    @State private var ingredientsText = ""
+    @State private var careMinutes = 20
+    @State private var potCount = 2
+    @State private var difficulty: CareDifficulty = .medium
+    @State private var materialsText = ""
     @State private var stepsText = ""
 
-    private var isEditing: Bool { recipe != nil }
+    private var isEditing: Bool { plant != nil }
 
     var body: some View {
         NavigationStack {
@@ -25,32 +25,32 @@ struct RecipeEditorView: View {
                     Section("Basics") {
                         TextField("Title", text: $title)
                         Picker("Category", selection: $category) {
-                            ForEach(RecipeSeed.categories, id: \.self) { item in
+                            ForEach(PlantSeed.categories, id: \.self) { item in
                                 Text(item).tag(item)
                             }
                         }
                         Picker("Difficulty", selection: $difficulty) {
-                            ForEach(RecipeDifficulty.allCases) { level in
+                            ForEach(CareDifficulty.allCases) { level in
                                 Text(level.label).tag(level)
                             }
                         }
-                        Stepper("Cook time: \(cookTime) min", value: $cookTime, in: 1...240)
-                        Stepper("Servings: \(servings)", value: $servings, in: 1...24)
+                        Stepper("Care time: \(careMinutes) min", value: $careMinutes, in: 1...240)
+                        Stepper("Pots: \(potCount)", value: $potCount, in: 1...24)
                     }
 
-                    Section("Ingredients (one per line)") {
-                        TextEditor(text: $ingredientsText)
+                    Section("Materials (one per line)") {
+                        TextEditor(text: $materialsText)
                             .frame(minHeight: 120)
                     }
 
-                    Section("Steps (one per line)") {
+                    Section("Care Steps (one per line)") {
                         TextEditor(text: $stepsText)
                             .frame(minHeight: 140)
                     }
                 }
                 .scrollContentBackground(.hidden)
             }
-            .navigationTitle(isEditing ? "Edit Recipe" : "New Recipe")
+            .navigationTitle(isEditing ? "Edit Plant" : "New Plant")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -67,37 +67,37 @@ struct RecipeEditorView: View {
 
     private var canSave: Bool {
         !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            && !lines(from: ingredientsText).isEmpty
+            && !lines(from: materialsText).isEmpty
             && !lines(from: stepsText).isEmpty
     }
 
     private func load() {
-        guard let recipe else { return }
-        title = recipe.title
-        category = recipe.category
-        cookTime = recipe.cookTimeMinutes
-        servings = recipe.servings
-        difficulty = recipe.difficulty
-        ingredientsText = recipe.ingredients.joined(separator: "\n")
-        stepsText = recipe.steps.joined(separator: "\n")
+        guard let plant else { return }
+        title = plant.title
+        category = plant.category
+        careMinutes = plant.careMinutes
+        potCount = plant.potCount
+        difficulty = plant.difficulty
+        materialsText = plant.materials.joined(separator: "\n")
+        stepsText = plant.careSteps.joined(separator: "\n")
     }
 
     private func save() {
-        let saved = Recipe(
-            id: recipe?.id ?? UUID(),
+        let saved = Plant(
+            id: plant?.id ?? UUID(),
             title: title.trimmingCharacters(in: .whitespacesAndNewlines),
             category: category,
-            cookTimeMinutes: cookTime,
-            servings: servings,
-            ingredients: lines(from: ingredientsText),
-            steps: lines(from: stepsText),
-            isFavorite: recipe?.isFavorite ?? false,
-            viewed: recipe?.viewed ?? false,
-            notes: recipe?.notes ?? "",
+            careMinutes: careMinutes,
+            potCount: potCount,
+            materials: lines(from: materialsText),
+            careSteps: lines(from: stepsText),
+            isFavorite: plant?.isFavorite ?? false,
+            viewed: plant?.viewed ?? false,
+            notes: plant?.notes ?? "",
             isCustom: true,
             difficulty: difficulty
         )
-        store.saveRecipe(saved)
+        store.savePlant(saved)
         dismiss()
     }
 

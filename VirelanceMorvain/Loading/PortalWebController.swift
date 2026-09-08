@@ -1,7 +1,7 @@
 import UIKit
 import WebKit
 
-final class WebviewVC: UIViewController, WKNavigationDelegate, WKUIDelegate, UIScrollViewDelegate {
+final class PortalWebController: UIViewController, WKNavigationDelegate, WKUIDelegate, UIScrollViewDelegate {
 
     private static let sharedProcessPool = WKProcessPool()
 
@@ -308,8 +308,8 @@ private final class RedirectDetectorDelegate: NSObject, URLSessionTaskDelegate {
 }
 
 
-// MARK: - SaveService
-struct SaveService {
+// MARK: - MediaPersistHelper
+struct MediaPersistHelper {
     static var lastUrl: URL? {
         get { UserDefaults.standard.url(forKey: "LastUrl") }
         set { UserDefaults.standard.set(newValue, forKey: "LastUrl") }

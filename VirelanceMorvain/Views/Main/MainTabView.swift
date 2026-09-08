@@ -6,19 +6,19 @@ struct MainTabView: View {
 
     var body: some View {
         TabView {
-            RecipesView()
+            PlantsView()
                 .tabItem {
-                    Label("Recipes", systemImage: "fork.knife")
+                    Label("Plants", systemImage: "leaf.fill")
                 }
 
-            MealPlanView()
+            CarePlanView()
                 .tabItem {
-                    Label("Plan", systemImage: "calendar")
+                    Label("Care", systemImage: "calendar")
                 }
 
-            ShoppingTimersView()
+            SuppliesTimersView()
                 .tabItem {
-                    Label("Shop", systemImage: "cart.fill")
+                    Label("Supplies", systemImage: "basket.fill")
                 }
 
             StatsView()

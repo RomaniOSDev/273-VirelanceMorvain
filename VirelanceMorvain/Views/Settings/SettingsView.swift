@@ -79,13 +79,13 @@ struct SettingsView: View {
             .toolbarBackground(Color("AppSurface"), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarColorScheme(colorScheme, for: .navigationBar)
-            .alert("Reset all data?", isPresented: $showResetConfirm) {
+            .alert("Reset atelier data?", isPresented: $showResetConfirm) {
                 Button("Cancel", role: .cancel) {}
                 Button("Reset", role: .destructive) {
                     store.resetAll()
                 }
             } message: {
-                Text("This clears recipes, shopping lists, timers, meal plan, and achievements.")
+                Text("This clears plants, supply lists, care timers, care schedule, and achievements.")
             }
         }
     }

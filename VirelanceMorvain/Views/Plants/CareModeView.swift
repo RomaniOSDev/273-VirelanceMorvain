@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct CookModeView: View {
+struct CareModeView: View {
     @EnvironmentObject private var store: AppDataStore
     @Environment(\.dismiss) private var dismiss
 
-    let recipe: Recipe
+    let plant: Plant
 
     @State private var stepIndex = 0
     @State private var timerMinutes = 5
@@ -12,7 +12,7 @@ struct CookModeView: View {
     @State private var isTimerRunning = false
     @State private var timerEnd: Date?
 
-    private var steps: [String] { recipe.steps }
+    private var steps: [String] { plant.careSteps }
 
     var body: some View {
         ZStack {
@@ -45,7 +45,7 @@ struct CookModeView: View {
                 Spacer()
 
                 VStack(spacing: 20) {
-                    Text(recipe.title)
+                    Text(plant.title)
                         .font(.system(size: 16, weight: .medium, design: .rounded))
                         .foregroundColor(Color("AppAccent"))
 

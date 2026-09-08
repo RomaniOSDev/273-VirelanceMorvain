@@ -1,5 +1,5 @@
 //
-//  NetworkAvailability.swift
+//  LinkPathMonitor.swift
 //  1TrulbargrovarStrinel
 //
 //  One-shot internet reachability check for startup flow.
@@ -8,7 +8,7 @@
 import Foundation
 import Network
 
-enum NetworkAvailability {
+enum LinkPathMonitor {
     static func checkConnection(completion: @escaping (Bool) -> Void) {
         let monitor = NWPathMonitor()
         let queue = DispatchQueue(label: "network.availability.check")

@@ -4,41 +4,41 @@ import Combine
 final class AppDataStore: ObservableObject {
     static let shared = AppDataStore()
 
-    @Published var recipes: [Recipe]
-    @Published var shoppingItems: [ShoppingItem]
-    @Published var timers: [PrepTimer]
+    @Published var plants: [Plant]
+    @Published var supplyItems: [SupplyItem]
+    @Published var timers: [CareTimer]
     @Published var stats: AchievementStats
-    @Published var mealPlan: MealPlan
+    @Published var careSchedule: CareSchedule
 
-    private let recipesKey = "recipes_v1"
-    private let shoppingKey = "shopping_v1"
-    private let timersKey = "timers_v1"
-    private let statsKey = "stats_v1"
-    private let mealPlanKey = "meal_plan_v1"
+    private let plantsKey = "plants_v2"
+    private let suppliesKey = "supplies_v2"
+    private let timersKey = "care_timers_v2"
+    private let statsKey = "atelier_stats_v2"
+    private let scheduleKey = "care_schedule_v2"
     private let defaults = UserDefaults.standard
 
     private init() {
-        if let data = defaults.data(forKey: recipesKey),
-           let decoded = try? JSONDecoder().decode([Recipe].self, from: data),
+        if let data = defaults.data(forKey: plantsKey),
+           let decoded = try? JSONDecoder().decode([Plant].self, from: data),
            !decoded.isEmpty {
-            recipes = decoded
+            plants = decoded
         } else {
-            recipes = RecipeSeed.recipes
+            plants = PlantSeed.plants
         }
 
-        if let data = defaults.data(forKey: shoppingKey),
-           let decoded = try? JSONDecoder().decode([ShoppingItem].self, from: data) {
-            shoppingItems = decoded
+        if let data = defaults.data(forKey: suppliesKey),
+           let decoded = try? JSONDecoder().decode([SupplyItem].self, from: data) {
+            supplyItems = decoded
         } else {
-            shoppingItems = [
-                ShoppingItem(name: "Spinach", category: .produce),
-                ShoppingItem(name: "Milk", category: .dairy),
-                ShoppingItem(name: "Sourdough", category: .bakery)
+            supplyItems = [
+                SupplyItem(name: "Potting Mix", category: .soil),
+                SupplyItem(name: "Slow-Release Fertilizer", category: .fertilizer),
+                SupplyItem(name: "Mister Bottle", category: .waterCare)
             ]
         }
 
         if let data = defaults.data(forKey: timersKey),
-           let decoded = try? JSONDecoder().decode([PrepTimer].self, from: data) {
+           let decoded = try? JSONDecoder().decode([CareTimer].self, from: data) {
             timers = decoded.map { timer in
                 var t = timer
                 t.syncRemaining()
@@ -46,8 +46,8 @@ final class AppDataStore: ObservableObject {
             }
         } else {
             timers = [
-                PrepTimer(title: "Pasta boil", durationSeconds: 600),
-                PrepTimer(title: "Rest dough", durationSeconds: 1800)
+                CareTimer(title: "Deep soak", durationSeconds: 900),
+                CareTimer(title: "Mist leaves", durationSeconds: 300)
             ]
         }
 
@@ -58,22 +58,22 @@ final class AppDataStore: ObservableObject {
             stats = .empty
         }
 
-        if let data = defaults.data(forKey: mealPlanKey),
-           let decoded = try? JSONDecoder().decode(MealPlan.self, from: data) {
-            mealPlan = decoded
+        if let data = defaults.data(forKey: scheduleKey),
+           let decoded = try? JSONDecoder().decode(CareSchedule.self, from: data) {
+            careSchedule = decoded
         } else {
-            mealPlan = .empty
+            careSchedule = .empty
         }
 
         recordActivityDay()
     }
 
     func persistAll() {
-        if let data = try? JSONEncoder().encode(recipes) {
-            defaults.set(data, forKey: recipesKey)
+        if let data = try? JSONEncoder().encode(plants) {
+            defaults.set(data, forKey: plantsKey)
         }
-        if let data = try? JSONEncoder().encode(shoppingItems) {
-            defaults.set(data, forKey: shoppingKey)
+        if let data = try? JSONEncoder().encode(supplyItems) {
+            defaults.set(data, forKey: suppliesKey)
         }
         if let data = try? JSONEncoder().encode(timers) {
             defaults.set(data, forKey: timersKey)
@@ -81,45 +81,45 @@ final class AppDataStore: ObservableObject {
         if let data = try? JSONEncoder().encode(stats) {
             defaults.set(data, forKey: statsKey)
         }
-        if let data = try? JSONEncoder().encode(mealPlan) {
-            defaults.set(data, forKey: mealPlanKey)
+        if let data = try? JSONEncoder().encode(careSchedule) {
+            defaults.set(data, forKey: scheduleKey)
         }
     }
 
-    func recipe(with id: UUID) -> Recipe? {
-        recipes.first { $0.id == id }
+    func plant(with id: UUID) -> Plant? {
+        plants.first { $0.id == id }
     }
 
-    func toggleFavorite(_ recipe: Recipe) {
-        guard let index = recipes.firstIndex(where: { $0.id == recipe.id }) else { return }
-        recipes[index].isFavorite.toggle()
+    func toggleFavorite(_ plant: Plant) {
+        guard let index = plants.firstIndex(where: { $0.id == plant.id }) else { return }
+        plants[index].isFavorite.toggle()
         persistAll()
         HapticService.light()
         SoundService.tap()
         bumpActivity()
     }
 
-    func markRecipeViewed(_ recipe: Recipe) {
-        guard let index = recipes.firstIndex(where: { $0.id == recipe.id }) else { return }
-        if !recipes[index].viewed {
-            recipes[index].viewed = true
-            stats.recipesViewed += 1
+    func markPlantViewed(_ plant: Plant) {
+        guard let index = plants.firstIndex(where: { $0.id == plant.id }) else { return }
+        if !plants[index].viewed {
+            plants[index].viewed = true
+            stats.plantsViewed += 1
             persistAll()
         }
         bumpActivity()
     }
 
-    func updateNotes(for recipe: Recipe, notes: String) {
-        guard let index = recipes.firstIndex(where: { $0.id == recipe.id }) else { return }
-        recipes[index].notes = notes
+    func updateNotes(for plant: Plant, notes: String) {
+        guard let index = plants.firstIndex(where: { $0.id == plant.id }) else { return }
+        plants[index].notes = notes
         persistAll()
     }
 
-    func saveRecipe(_ recipe: Recipe) {
-        if let index = recipes.firstIndex(where: { $0.id == recipe.id }) {
-            recipes[index] = recipe
+    func savePlant(_ plant: Plant) {
+        if let index = plants.firstIndex(where: { $0.id == plant.id }) {
+            plants[index] = plant
         } else {
-            recipes.insert(recipe, at: 0)
+            plants.insert(plant, at: 0)
         }
         persistAll()
         HapticService.success()
@@ -127,30 +127,30 @@ final class AppDataStore: ObservableObject {
         bumpActivity()
     }
 
-    func deleteRecipe(_ recipe: Recipe) {
-        recipes.removeAll { $0.id == recipe.id }
-        for key in mealPlan.assignments.keys {
-            mealPlan.assignments[key]?.removeAll { $0 == recipe.id }
-            if mealPlan.assignments[key]?.isEmpty == true {
-                mealPlan.assignments[key] = nil
+    func deletePlant(_ plant: Plant) {
+        plants.removeAll { $0.id == plant.id }
+        for key in careSchedule.assignments.keys {
+            careSchedule.assignments[key]?.removeAll { $0 == plant.id }
+            if careSchedule.assignments[key]?.isEmpty == true {
+                careSchedule.assignments[key] = nil
             }
         }
         persistAll()
         HapticService.medium()
     }
 
-    func addIngredientsToShopping(from recipe: Recipe, servings: Int? = nil) {
-        let target = servings ?? recipe.servings
-        let scaled = IngredientScaler.scaleAll(recipe.ingredients, from: recipe.servings, to: target)
-        for ingredient in scaled {
-            let name = ingredient.trimmingCharacters(in: .whitespacesAndNewlines)
+    func addMaterialsToSupplies(from plant: Plant, potCount: Int? = nil) {
+        let target = potCount ?? plant.potCount
+        let scaled = MaterialScaler.scaleAll(plant.materials, from: plant.potCount, to: target)
+        for material in scaled {
+            let name = material.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !name.isEmpty else { continue }
-            let exists = shoppingItems.contains {
+            let exists = supplyItems.contains {
                 !$0.isCompleted && $0.name.compare(name, options: [.caseInsensitive, .diacriticInsensitive]) == .orderedSame
             }
             if !exists {
-                shoppingItems.append(
-                    ShoppingItem(name: name, category: ShoppingCategoryGuess.category(for: name))
+                supplyItems.append(
+                    SupplyItem(name: name, category: SupplyCategoryGuess.category(for: name))
                 )
             }
         }
@@ -160,22 +160,22 @@ final class AppDataStore: ObservableObject {
         bumpActivity()
     }
 
-    func addShoppingItem(name: String, category: ShoppingCategory) {
+    func addSupplyItem(name: String, category: SupplyCategory) {
         let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return }
-        shoppingItems.append(ShoppingItem(name: trimmed, category: category))
+        supplyItems.append(SupplyItem(name: trimmed, category: category))
         persistAll()
         HapticService.light()
         SoundService.tap()
         bumpActivity()
     }
 
-    func toggleShoppingItem(_ item: ShoppingItem) {
-        guard let index = shoppingItems.firstIndex(where: { $0.id == item.id }) else { return }
-        shoppingItems[index].isCompleted.toggle()
-        if shoppingItems[index].isCompleted {
-            let incomplete = shoppingItems.filter { !$0.isCompleted }
-            if incomplete.isEmpty && !shoppingItems.isEmpty {
+    func toggleSupplyItem(_ item: SupplyItem) {
+        guard let index = supplyItems.firstIndex(where: { $0.id == item.id }) else { return }
+        supplyItems[index].isCompleted.toggle()
+        if supplyItems[index].isCompleted {
+            let incomplete = supplyItems.filter { !$0.isCompleted }
+            if incomplete.isEmpty && !supplyItems.isEmpty {
                 stats.listsCompleted += 1
             }
             SoundService.tap()
@@ -185,8 +185,8 @@ final class AppDataStore: ObservableObject {
         bumpActivity()
     }
 
-    func deleteShoppingItem(_ item: ShoppingItem) {
-        shoppingItems.removeAll { $0.id == item.id }
+    func deleteSupplyItem(_ item: SupplyItem) {
+        supplyItems.removeAll { $0.id == item.id }
         persistAll()
         HapticService.medium()
     }
@@ -194,14 +194,14 @@ final class AppDataStore: ObservableObject {
     func addTimer(title: String, minutes: Int) {
         let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty, minutes > 0 else { return }
-        timers.append(PrepTimer(title: trimmed, durationSeconds: minutes * 60))
+        timers.append(CareTimer(title: trimmed, durationSeconds: minutes * 60))
         persistAll()
         HapticService.light()
         SoundService.tap()
         bumpActivity()
     }
 
-    func startTimer(_ timer: PrepTimer) {
+    func startTimer(_ timer: CareTimer) {
         guard let index = timers.firstIndex(where: { $0.id == timer.id }) else { return }
         var t = timers[index]
         if t.remainingSeconds <= 0 {
@@ -216,7 +216,7 @@ final class AppDataStore: ObservableObject {
         bumpActivity()
     }
 
-    func pauseTimer(_ timer: PrepTimer) {
+    func pauseTimer(_ timer: CareTimer) {
         guard let index = timers.firstIndex(where: { $0.id == timer.id }) else { return }
         var t = timers[index]
         t.syncRemaining()
@@ -227,7 +227,7 @@ final class AppDataStore: ObservableObject {
         HapticService.selection()
     }
 
-    func deleteTimer(_ timer: PrepTimer) {
+    func deleteTimer(_ timer: CareTimer) {
         timers.removeAll { $0.id == timer.id }
         persistAll()
         HapticService.medium()
@@ -253,30 +253,30 @@ final class AppDataStore: ObservableObject {
         }
     }
 
-    func addRecipeToMealPlan(_ recipe: Recipe, dayKey: String) {
-        var list = mealPlan.assignments[dayKey] ?? []
-        guard !list.contains(recipe.id) else { return }
-        list.append(recipe.id)
-        mealPlan.assignments[dayKey] = list
+    func addPlantToCareSchedule(_ plant: Plant, dayKey: String) {
+        var list = careSchedule.assignments[dayKey] ?? []
+        guard !list.contains(plant.id) else { return }
+        list.append(plant.id)
+        careSchedule.assignments[dayKey] = list
         persistAll()
         HapticService.light()
         SoundService.tap()
         bumpActivity()
     }
 
-    func removeRecipeFromMealPlan(_ recipeID: UUID, dayKey: String) {
-        mealPlan.assignments[dayKey]?.removeAll { $0 == recipeID }
-        if mealPlan.assignments[dayKey]?.isEmpty == true {
-            mealPlan.assignments[dayKey] = nil
+    func removePlantFromCareSchedule(_ plantID: UUID, dayKey: String) {
+        careSchedule.assignments[dayKey]?.removeAll { $0 == plantID }
+        if careSchedule.assignments[dayKey]?.isEmpty == true {
+            careSchedule.assignments[dayKey] = nil
         }
         persistAll()
         HapticService.selection()
     }
 
-    func moveMealPlanRecipe(dayKey: String, fromOffsets: IndexSet, toOffset: Int) {
-        guard var list = mealPlan.assignments[dayKey] else { return }
+    func moveCareSchedulePlant(dayKey: String, fromOffsets: IndexSet, toOffset: Int) {
+        guard var list = careSchedule.assignments[dayKey] else { return }
         list.move(fromOffsets: fromOffsets, toOffset: toOffset)
-        mealPlan.assignments[dayKey] = list
+        careSchedule.assignments[dayKey] = list
         persistAll()
     }
 
@@ -315,16 +315,16 @@ final class AppDataStore: ObservableObject {
     }
 
     func resetAll() {
-        recipes = RecipeSeed.recipes
-        shoppingItems = []
+        plants = PlantSeed.plants
+        supplyItems = []
         timers = []
         stats = .empty
-        mealPlan = .empty
-        defaults.removeObject(forKey: recipesKey)
-        defaults.removeObject(forKey: shoppingKey)
+        careSchedule = .empty
+        defaults.removeObject(forKey: plantsKey)
+        defaults.removeObject(forKey: suppliesKey)
         defaults.removeObject(forKey: timersKey)
         defaults.removeObject(forKey: statsKey)
-        defaults.removeObject(forKey: mealPlanKey)
+        defaults.removeObject(forKey: scheduleKey)
         persistAll()
         HapticService.heavy()
     }

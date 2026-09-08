@@ -10,23 +10,23 @@
 		3034931A30249AB6001E128C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492E030249AB6001E128C /* AppDelegate.swift */; };
 		3034931B30249AB6001E128C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492E130249AB6001E128C /* ContentView.swift */; };
 		3034931C30249AB6001E128C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492E330249AB6001E128C /* SceneDelegate.swift */; };
-		3034931D30249AB6001E128C /* AppsFlyerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492E530249AB6001E128C /* AppsFlyerManager.swift */; };
-		3034931E30249AB6001E128C /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492E630249AB6001E128C /* ConfigManager.swift */; };
-		3034931F30249AB6001E128C /* LoadingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492E730249AB6001E128C /* LoadingManager.swift */; };
-		3034932030249AB6001E128C /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492E830249AB6001E128C /* LoadingView.swift */; };
-		3034932130249AB6001E128C /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492E930249AB6001E128C /* LoadingViewController.swift */; };
-		3034932230249AB6001E128C /* NetworkAvailability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492EA30249AB6001E128C /* NetworkAvailability.swift */; };
-		3034932330249AB6001E128C /* NoInternetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492EB30249AB6001E128C /* NoInternetView.swift */; };
-		3034932430249AB6001E128C /* NotificationPermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492EC30249AB6001E128C /* NotificationPermissionManager.swift */; };
-		3034932530249AB6001E128C /* NotificationPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492ED30249AB6001E128C /* NotificationPermissionView.swift */; };
-		3034932630249AB6001E128C /* NotificationPermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492EE30249AB6001E128C /* NotificationPermissionViewController.swift */; };
-		3034932730249AB6001E128C /* PushNotificationURLRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492EF30249AB6001E128C /* PushNotificationURLRouter.swift */; };
-		3034932830249AB6001E128C /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492F030249AB6001E128C /* UserAgentBuilder.swift */; };
-		3034932930249AB6001E128C /* WebviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492F130249AB6001E128C /* WebviewVC.swift */; };
-		3034932A30249AB6001E128C /* MealPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492F330249AB6001E128C /* MealPlan.swift */; };
-		3034932B30249AB6001E128C /* PrepTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492F430249AB6001E128C /* PrepTimer.swift */; };
-		3034932C30249AB6001E128C /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492F530249AB6001E128C /* Recipe.swift */; };
-		3034932D30249AB6001E128C /* ShoppingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492F630249AB6001E128C /* ShoppingItem.swift */; };
+		3034931D30249AB6001E128C /* ConversionPayloadStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492E530249AB6001E128C /* ConversionPayloadStore.swift */; };
+		3034931E30249AB6001E128C /* RemoteGateConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492E630249AB6001E128C /* RemoteGateConfig.swift */; };
+		3034931F30249AB6001E128C /* GateRootFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492E730249AB6001E128C /* GateRootFactory.swift */; };
+		3034932030249AB6001E128C /* GateSplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492E830249AB6001E128C /* GateSplashView.swift */; };
+		3034932130249AB6001E128C /* GateHostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492E930249AB6001E128C /* GateHostController.swift */; };
+		3034932230249AB6001E128C /* LinkPathMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492EA30249AB6001E128C /* LinkPathMonitor.swift */; };
+		3034932330249AB6001E128C /* OfflineGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492EB30249AB6001E128C /* OfflineGateView.swift */; };
+		3034932430249AB6001E128C /* AlertOptInCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492EC30249AB6001E128C /* AlertOptInCoordinator.swift */; };
+		3034932530249AB6001E128C /* AlertOptInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492ED30249AB6001E128C /* AlertOptInView.swift */; };
+		3034932630249AB6001E128C /* AlertOptInHostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492EE30249AB6001E128C /* AlertOptInHostController.swift */; };
+		3034932730249AB6001E128C /* PushDeepLinkBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492EF30249AB6001E128C /* PushDeepLinkBuffer.swift */; };
+		3034932830249AB6001E128C /* BrowserIdentityBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492F030249AB6001E128C /* BrowserIdentityBuilder.swift */; };
+		3034932930249AB6001E128C /* PortalWebController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492F130249AB6001E128C /* PortalWebController.swift */; };
+		3034932A30249AB6001E128C /* CareSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492F330249AB6001E128C /* CareSchedule.swift */; };
+		3034932B30249AB6001E128C /* CareTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492F430249AB6001E128C /* CareTimer.swift */; };
+		3034932C30249AB6001E128C /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492F530249AB6001E128C /* Plant.swift */; };
+		3034932D30249AB6001E128C /* SupplyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492F630249AB6001E128C /* SupplyItem.swift */; };
 		3034932E30249AB6001E128C /* AppDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492FA30249AB6001E128C /* AppDataStore.swift */; };
 		3034932F30249AB6001E128C /* AppPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492FB30249AB6001E128C /* AppPreferences.swift */; };
 		3034933030249AB6001E128C /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492FC30249AB6001E128C /* HapticService.swift */; };
@@ -34,17 +34,17 @@
 		3034933230249AB6001E128C /* AppLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303492FF30249AB6001E128C /* AppLinks.swift */; };
 		3034933330249AB6001E128C /* Color+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930030249AB6001E128C /* Color+App.swift */; };
 		3034933430249AB6001E128C /* FeatureIllustration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930130249AB6001E128C /* FeatureIllustration.swift */; };
-		3034933530249AB6001E128C /* IngredientScaler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930230249AB6001E128C /* IngredientScaler.swift */; };
+		3034933530249AB6001E128C /* MaterialScaler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930230249AB6001E128C /* MaterialScaler.swift */; };
 		3034933630249AB6001E128C /* SafeBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930330249AB6001E128C /* SafeBackground.swift */; };
 		3034933730249AB6001E128C /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930530249AB6001E128C /* MainTabView.swift */; };
-		3034933830249AB6001E128C /* MealPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930730249AB6001E128C /* MealPlanView.swift */; };
+		3034933830249AB6001E128C /* CarePlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930730249AB6001E128C /* CarePlanView.swift */; };
 		3034933930249AB6001E128C /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930930249AB6001E128C /* OnboardingView.swift */; };
-		3034933A30249AB6001E128C /* CookModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930B30249AB6001E128C /* CookModeView.swift */; };
-		3034933B30249AB6001E128C /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930C30249AB6001E128C /* RecipeDetailView.swift */; };
-		3034933C30249AB6001E128C /* RecipeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930D30249AB6001E128C /* RecipeEditorView.swift */; };
-		3034933D30249AB6001E128C /* RecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930E30249AB6001E128C /* RecipesView.swift */; };
+		3034933A30249AB6001E128C /* CareModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930B30249AB6001E128C /* CareModeView.swift */; };
+		3034933B30249AB6001E128C /* PlantDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930C30249AB6001E128C /* PlantDetailView.swift */; };
+		3034933C30249AB6001E128C /* PlantEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930D30249AB6001E128C /* PlantEditorView.swift */; };
+		3034933D30249AB6001E128C /* PlantsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034930E30249AB6001E128C /* PlantsView.swift */; };
 		3034933E30249AB6001E128C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034931030249AB6001E128C /* SettingsView.swift */; };
-		3034933F30249AB6001E128C /* ShoppingTimersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034931230249AB6001E128C /* ShoppingTimersView.swift */; };
+		3034933F30249AB6001E128C /* SuppliesTimersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034931230249AB6001E128C /* SuppliesTimersView.swift */; };
 		3034934030249AB6001E128C /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034931430249AB6001E128C /* StatsView.swift */; };
 		3034934230249AB6001E128C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 303492F830249AB6001E128C /* Assets.xcassets */; };
 		3034934330249AB6001E128C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3034931730249AB6001E128C /* GoogleService-Info.plist */; };
@@ -87,23 +87,23 @@
 		303492E130249AB6001E128C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		303492E230249AB6001E128C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		303492E330249AB6001E128C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		303492E530249AB6001E128C /* AppsFlyerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerManager.swift; sourceTree = "<group>"; };
-		303492E630249AB6001E128C /* ConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigManager.swift; sourceTree = "<group>"; };
-		303492E730249AB6001E128C /* LoadingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingManager.swift; sourceTree = "<group>"; };
-		303492E830249AB6001E128C /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
-		303492E930249AB6001E128C /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
-		303492EA30249AB6001E128C /* NetworkAvailability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAvailability.swift; sourceTree = "<group>"; };
-		303492EB30249AB6001E128C /* NoInternetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInternetView.swift; sourceTree = "<group>"; };
-		303492EC30249AB6001E128C /* NotificationPermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionManager.swift; sourceTree = "<group>"; };
-		303492ED30249AB6001E128C /* NotificationPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionView.swift; sourceTree = "<group>"; };
-		303492EE30249AB6001E128C /* NotificationPermissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionViewController.swift; sourceTree = "<group>"; };
-		303492EF30249AB6001E128C /* PushNotificationURLRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationURLRouter.swift; sourceTree = "<group>"; };
-		303492F030249AB6001E128C /* UserAgentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
-		303492F130249AB6001E128C /* WebviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebviewVC.swift; sourceTree = "<group>"; };
-		303492F330249AB6001E128C /* MealPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlan.swift; sourceTree = "<group>"; };
-		303492F430249AB6001E128C /* PrepTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepTimer.swift; sourceTree = "<group>"; };
-		303492F530249AB6001E128C /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
-		303492F630249AB6001E128C /* ShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItem.swift; sourceTree = "<group>"; };
+		303492E530249AB6001E128C /* ConversionPayloadStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionPayloadStore.swift; sourceTree = "<group>"; };
+		303492E630249AB6001E128C /* RemoteGateConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteGateConfig.swift; sourceTree = "<group>"; };
+		303492E730249AB6001E128C /* GateRootFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GateRootFactory.swift; sourceTree = "<group>"; };
+		303492E830249AB6001E128C /* GateSplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GateSplashView.swift; sourceTree = "<group>"; };
+		303492E930249AB6001E128C /* GateHostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GateHostController.swift; sourceTree = "<group>"; };
+		303492EA30249AB6001E128C /* LinkPathMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkPathMonitor.swift; sourceTree = "<group>"; };
+		303492EB30249AB6001E128C /* OfflineGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineGateView.swift; sourceTree = "<group>"; };
+		303492EC30249AB6001E128C /* AlertOptInCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertOptInCoordinator.swift; sourceTree = "<group>"; };
+		303492ED30249AB6001E128C /* AlertOptInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertOptInView.swift; sourceTree = "<group>"; };
+		303492EE30249AB6001E128C /* AlertOptInHostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertOptInHostController.swift; sourceTree = "<group>"; };
+		303492EF30249AB6001E128C /* PushDeepLinkBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushDeepLinkBuffer.swift; sourceTree = "<group>"; };
+		303492F030249AB6001E128C /* BrowserIdentityBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserIdentityBuilder.swift; sourceTree = "<group>"; };
+		303492F130249AB6001E128C /* PortalWebController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalWebController.swift; sourceTree = "<group>"; };
+		303492F330249AB6001E128C /* CareSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareSchedule.swift; sourceTree = "<group>"; };
+		303492F430249AB6001E128C /* CareTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareTimer.swift; sourceTree = "<group>"; };
+		303492F530249AB6001E128C /* Plant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
+		303492F630249AB6001E128C /* SupplyItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplyItem.swift; sourceTree = "<group>"; };
 		303492F830249AB6001E128C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		303492FA30249AB6001E128C /* AppDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDataStore.swift; sourceTree = "<group>"; };
 		303492FB30249AB6001E128C /* AppPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPreferences.swift; sourceTree = "<group>"; };
@@ -112,17 +112,17 @@
 		303492FF30249AB6001E128C /* AppLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLinks.swift; sourceTree = "<group>"; };
 		3034930030249AB6001E128C /* Color+App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+App.swift"; sourceTree = "<group>"; };
 		3034930130249AB6001E128C /* FeatureIllustration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureIllustration.swift; sourceTree = "<group>"; };
-		3034930230249AB6001E128C /* IngredientScaler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientScaler.swift; sourceTree = "<group>"; };
+		3034930230249AB6001E128C /* MaterialScaler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialScaler.swift; sourceTree = "<group>"; };
 		3034930330249AB6001E128C /* SafeBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeBackground.swift; sourceTree = "<group>"; };
 		3034930530249AB6001E128C /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		3034930730249AB6001E128C /* MealPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanView.swift; sourceTree = "<group>"; };
+		3034930730249AB6001E128C /* CarePlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarePlanView.swift; sourceTree = "<group>"; };
 		3034930930249AB6001E128C /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		3034930B30249AB6001E128C /* CookModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookModeView.swift; sourceTree = "<group>"; };
-		3034930C30249AB6001E128C /* RecipeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
-		3034930D30249AB6001E128C /* RecipeEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeEditorView.swift; sourceTree = "<group>"; };
-		3034930E30249AB6001E128C /* RecipesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesView.swift; sourceTree = "<group>"; };
+		3034930B30249AB6001E128C /* CareModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareModeView.swift; sourceTree = "<group>"; };
+		3034930C30249AB6001E128C /* PlantDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantDetailView.swift; sourceTree = "<group>"; };
+		3034930D30249AB6001E128C /* PlantEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantEditorView.swift; sourceTree = "<group>"; };
+		3034930E30249AB6001E128C /* PlantsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantsView.swift; sourceTree = "<group>"; };
 		3034931030249AB6001E128C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		3034931230249AB6001E128C /* ShoppingTimersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingTimersView.swift; sourceTree = "<group>"; };
+		3034931230249AB6001E128C /* SuppliesTimersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuppliesTimersView.swift; sourceTree = "<group>"; };
 		3034931430249AB6001E128C /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		3034931730249AB6001E128C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3034931830249AB6001E128C /* VirelanceMorvain.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VirelanceMorvain.entitlements; sourceTree = "<group>"; };
@@ -188,19 +188,19 @@
 		303492F230249AB6001E128C /* Loading */ = {
 			isa = PBXGroup;
 			children = (
-				303492E530249AB6001E128C /* AppsFlyerManager.swift */,
-				303492E630249AB6001E128C /* ConfigManager.swift */,
-				303492E730249AB6001E128C /* LoadingManager.swift */,
-				303492E830249AB6001E128C /* LoadingView.swift */,
-				303492E930249AB6001E128C /* LoadingViewController.swift */,
-				303492EA30249AB6001E128C /* NetworkAvailability.swift */,
-				303492EB30249AB6001E128C /* NoInternetView.swift */,
-				303492EC30249AB6001E128C /* NotificationPermissionManager.swift */,
-				303492ED30249AB6001E128C /* NotificationPermissionView.swift */,
-				303492EE30249AB6001E128C /* NotificationPermissionViewController.swift */,
-				303492EF30249AB6001E128C /* PushNotificationURLRouter.swift */,
-				303492F030249AB6001E128C /* UserAgentBuilder.swift */,
-				303492F130249AB6001E128C /* WebviewVC.swift */,
+				303492E530249AB6001E128C /* ConversionPayloadStore.swift */,
+				303492E630249AB6001E128C /* RemoteGateConfig.swift */,
+				303492E730249AB6001E128C /* GateRootFactory.swift */,
+				303492E830249AB6001E128C /* GateSplashView.swift */,
+				303492E930249AB6001E128C /* GateHostController.swift */,
+				303492EA30249AB6001E128C /* LinkPathMonitor.swift */,
+				303492EB30249AB6001E128C /* OfflineGateView.swift */,
+				303492EC30249AB6001E128C /* AlertOptInCoordinator.swift */,
+				303492ED30249AB6001E128C /* AlertOptInView.swift */,
+				303492EE30249AB6001E128C /* AlertOptInHostController.swift */,
+				303492EF30249AB6001E128C /* PushDeepLinkBuffer.swift */,
+				303492F030249AB6001E128C /* BrowserIdentityBuilder.swift */,
+				303492F130249AB6001E128C /* PortalWebController.swift */,
 			);
 			path = Loading;
 			sourceTree = "<group>";
@@ -208,10 +208,10 @@
 		303492F730249AB6001E128C /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				303492F330249AB6001E128C /* MealPlan.swift */,
-				303492F430249AB6001E128C /* PrepTimer.swift */,
-				303492F530249AB6001E128C /* Recipe.swift */,
-				303492F630249AB6001E128C /* ShoppingItem.swift */,
+				303492F330249AB6001E128C /* CareSchedule.swift */,
+				303492F430249AB6001E128C /* CareTimer.swift */,
+				303492F530249AB6001E128C /* Plant.swift */,
+				303492F630249AB6001E128C /* SupplyItem.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -241,7 +241,7 @@
 				303492FF30249AB6001E128C /* AppLinks.swift */,
 				3034930030249AB6001E128C /* Color+App.swift */,
 				3034930130249AB6001E128C /* FeatureIllustration.swift */,
-				3034930230249AB6001E128C /* IngredientScaler.swift */,
+				3034930230249AB6001E128C /* MaterialScaler.swift */,
 				3034930330249AB6001E128C /* SafeBackground.swift */,
 			);
 			path = Utilities;
@@ -255,12 +255,12 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
-		3034930830249AB6001E128C /* MealPlan */ = {
+		3034930830249AB6001E128C /* CarePlan */ = {
 			isa = PBXGroup;
 			children = (
-				3034930730249AB6001E128C /* MealPlanView.swift */,
+				3034930730249AB6001E128C /* CarePlanView.swift */,
 			);
-			path = MealPlan;
+			path = CarePlan;
 			sourceTree = "<group>";
 		};
 		3034930A30249AB6001E128C /* Onboarding */ = {
@@ -271,15 +271,15 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
-		3034930F30249AB6001E128C /* Recipes */ = {
+		3034930F30249AB6001E128C /* Plants */ = {
 			isa = PBXGroup;
 			children = (
-				3034930B30249AB6001E128C /* CookModeView.swift */,
-				3034930C30249AB6001E128C /* RecipeDetailView.swift */,
-				3034930D30249AB6001E128C /* RecipeEditorView.swift */,
-				3034930E30249AB6001E128C /* RecipesView.swift */,
+				3034930B30249AB6001E128C /* CareModeView.swift */,
+				3034930C30249AB6001E128C /* PlantDetailView.swift */,
+				3034930D30249AB6001E128C /* PlantEditorView.swift */,
+				3034930E30249AB6001E128C /* PlantsView.swift */,
 			);
-			path = Recipes;
+			path = Plants;
 			sourceTree = "<group>";
 		};
 		3034931130249AB6001E128C /* Settings */ = {
@@ -290,12 +290,12 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		3034931330249AB6001E128C /* Shopping */ = {
+		3034931330249AB6001E128C /* Supplies */ = {
 			isa = PBXGroup;
 			children = (
-				3034931230249AB6001E128C /* ShoppingTimersView.swift */,
+				3034931230249AB6001E128C /* SuppliesTimersView.swift */,
 			);
-			path = Shopping;
+			path = Supplies;
 			sourceTree = "<group>";
 		};
 		3034931530249AB6001E128C /* Stats */ = {
@@ -310,11 +310,11 @@
 			isa = PBXGroup;
 			children = (
 				3034930630249AB6001E128C /* Main */,
-				3034930830249AB6001E128C /* MealPlan */,
+				3034930830249AB6001E128C /* CarePlan */,
 				3034930A30249AB6001E128C /* Onboarding */,
-				3034930F30249AB6001E128C /* Recipes */,
+				3034930F30249AB6001E128C /* Plants */,
 				3034931130249AB6001E128C /* Settings */,
-				3034931330249AB6001E128C /* Shopping */,
+				3034931330249AB6001E128C /* Supplies */,
 				3034931530249AB6001E128C /* Stats */,
 			);
 			path = Views;
@@ -510,23 +510,23 @@
 				3034931A30249AB6001E128C /* AppDelegate.swift in Sources */,
 				3034931B30249AB6001E128C /* ContentView.swift in Sources */,
 				3034931C30249AB6001E128C /* SceneDelegate.swift in Sources */,
-				3034931D30249AB6001E128C /* AppsFlyerManager.swift in Sources */,
-				3034931E30249AB6001E128C /* ConfigManager.swift in Sources */,
-				3034931F30249AB6001E128C /* LoadingManager.swift in Sources */,
-				3034932030249AB6001E128C /* LoadingView.swift in Sources */,
-				3034932130249AB6001E128C /* LoadingViewController.swift in Sources */,
-				3034932230249AB6001E128C /* NetworkAvailability.swift in Sources */,
-				3034932330249AB6001E128C /* NoInternetView.swift in Sources */,
-				3034932430249AB6001E128C /* NotificationPermissionManager.swift in Sources */,
-				3034932530249AB6001E128C /* NotificationPermissionView.swift in Sources */,
-				3034932630249AB6001E128C /* NotificationPermissionViewController.swift in Sources */,
-				3034932730249AB6001E128C /* PushNotificationURLRouter.swift in Sources */,
-				3034932830249AB6001E128C /* UserAgentBuilder.swift in Sources */,
-				3034932930249AB6001E128C /* WebviewVC.swift in Sources */,
-				3034932A30249AB6001E128C /* MealPlan.swift in Sources */,
-				3034932B30249AB6001E128C /* PrepTimer.swift in Sources */,
-				3034932C30249AB6001E128C /* Recipe.swift in Sources */,
-				3034932D30249AB6001E128C /* ShoppingItem.swift in Sources */,
+				3034931D30249AB6001E128C /* ConversionPayloadStore.swift in Sources */,
+				3034931E30249AB6001E128C /* RemoteGateConfig.swift in Sources */,
+				3034931F30249AB6001E128C /* GateRootFactory.swift in Sources */,
+				3034932030249AB6001E128C /* GateSplashView.swift in Sources */,
+				3034932130249AB6001E128C /* GateHostController.swift in Sources */,
+				3034932230249AB6001E128C /* LinkPathMonitor.swift in Sources */,
+				3034932330249AB6001E128C /* OfflineGateView.swift in Sources */,
+				3034932430249AB6001E128C /* AlertOptInCoordinator.swift in Sources */,
+				3034932530249AB6001E128C /* AlertOptInView.swift in Sources */,
+				3034932630249AB6001E128C /* AlertOptInHostController.swift in Sources */,
+				3034932730249AB6001E128C /* PushDeepLinkBuffer.swift in Sources */,
+				3034932830249AB6001E128C /* BrowserIdentityBuilder.swift in Sources */,
+				3034932930249AB6001E128C /* PortalWebController.swift in Sources */,
+				3034932A30249AB6001E128C /* CareSchedule.swift in Sources */,
+				3034932B30249AB6001E128C /* CareTimer.swift in Sources */,
+				3034932C30249AB6001E128C /* Plant.swift in Sources */,
+				3034932D30249AB6001E128C /* SupplyItem.swift in Sources */,
 				3034932E30249AB6001E128C /* AppDataStore.swift in Sources */,
 				3034932F30249AB6001E128C /* AppPreferences.swift in Sources */,
 				3034933030249AB6001E128C /* HapticService.swift in Sources */,
@@ -534,17 +534,17 @@
 				3034933230249AB6001E128C /* AppLinks.swift in Sources */,
 				3034933330249AB6001E128C /* Color+App.swift in Sources */,
 				3034933430249AB6001E128C /* FeatureIllustration.swift in Sources */,
-				3034933530249AB6001E128C /* IngredientScaler.swift in Sources */,
+				3034933530249AB6001E128C /* MaterialScaler.swift in Sources */,
 				3034933630249AB6001E128C /* SafeBackground.swift in Sources */,
 				3034933730249AB6001E128C /* MainTabView.swift in Sources */,
-				3034933830249AB6001E128C /* MealPlanView.swift in Sources */,
+				3034933830249AB6001E128C /* CarePlanView.swift in Sources */,
 				3034933930249AB6001E128C /* OnboardingView.swift in Sources */,
-				3034933A30249AB6001E128C /* CookModeView.swift in Sources */,
-				3034933B30249AB6001E128C /* RecipeDetailView.swift in Sources */,
-				3034933C30249AB6001E128C /* RecipeEditorView.swift in Sources */,
-				3034933D30249AB6001E128C /* RecipesView.swift in Sources */,
+				3034933A30249AB6001E128C /* CareModeView.swift in Sources */,
+				3034933B30249AB6001E128C /* PlantDetailView.swift in Sources */,
+				3034933C30249AB6001E128C /* PlantEditorView.swift in Sources */,
+				3034933D30249AB6001E128C /* PlantsView.swift in Sources */,
 				3034933E30249AB6001E128C /* SettingsView.swift in Sources */,
-				3034933F30249AB6001E128C /* ShoppingTimersView.swift in Sources */,
+				3034933F30249AB6001E128C /* SuppliesTimersView.swift in Sources */,
 				3034934030249AB6001E128C /* StatsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -572,7 +572,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationServiceExtension;
@@ -583,7 +583,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.naz.v1r3l4nc3m0rv38n.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -601,7 +601,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NotificationServiceExtension;
@@ -612,7 +612,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.naz.v1r3l4nc3m0rv38n.NotificationServiceExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -756,17 +756,17 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = VirelanceMorvain/VirelanceMorvain.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = VirelanceMorvain/App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Virelance Morvain";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.naz.v1r3l4nc3m0rv38n;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -789,17 +789,17 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_ENTITLEMENTS = VirelanceMorvain/VirelanceMorvain.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = VirelanceMorvain/App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Virelance Morvain";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.naz.v1r3l4nc3m0rv38n;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

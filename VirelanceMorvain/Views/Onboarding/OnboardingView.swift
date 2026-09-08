@@ -6,21 +6,21 @@ struct OnboardingView: View {
 
     private let pages: [(title: String, subtitle: String, icon: String, accent: Color)] = [
         (
-            "Explore Recipes",
-            "Discover a variety of recipes tailored to your dietary needs.",
-            "fork.knife",
+            "Meet Your Plants",
+            "Build a living collection with care notes for every specimen.",
+            "leaf.fill",
             Color("AppPrimary")
         ),
         (
-            "Plan Your Week",
-            "Organize shopping lists and prep timers in one place.",
-            "cart.fill",
+            "Schedule Care",
+            "Plan watering days, gather supplies, and run care timers.",
+            "drop.fill",
             Color(red: 0.35, green: 0.72, blue: 0.95)
         ),
         (
-            "Track Your Progress",
-            "Build streaks, unlock milestones, and see your cooking stats.",
-            "flame.fill",
+            "Watch Them Thrive",
+            "Log care streaks, unlock grower milestones, and track atelier stats.",
+            "drop.fill",
             Color(red: 1.0, green: 0.62, blue: 0.22)
         )
     ]
@@ -68,7 +68,7 @@ struct OnboardingView: View {
                         hasCompletedOnboarding = true
                     }
                 } label: {
-                    Text(page < pages.count - 1 ? "Continue" : "Start Cooking")
+                    Text(page < pages.count - 1 ? "Continue" : "Enter Atelier")
                         .font(.system(size: 17, weight: .semibold, design: .rounded))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)

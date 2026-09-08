@@ -1,5 +1,5 @@
 //
-//  NoInternetView.swift
+//  OfflineGateView.swift
 //  1TrulbargrovarStrinel
 //
 //  Offline placeholder shown on app start when network is unavailable.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NoInternetView: View {
+struct OfflineGateView: View {
     var onRetry: () -> Void
 
     var body: some View {
@@ -60,5 +60,5 @@ struct NoInternetView: View {
 }
 
 #Preview {
-    NoInternetView(onRetry: {})
+    OfflineGateView(onRetry: {})
 }

@@ -1,5 +1,5 @@
 //
-//  NotificationPermissionViewController.swift
+//  AlertOptInHostController.swift
 //  1TrulbargrovarStrinel
 //
 //  Hosts the custom notification permission screen. On Accept requests system permission then shows WebView.
@@ -10,7 +10,7 @@ import UIKit
 import SwiftUI
 import UserNotifications
 
-final class NotificationPermissionViewController: UIViewController {
+final class AlertOptInHostController: UIViewController {
 
     private let url: URL
     private weak var window: UIWindow?
@@ -27,7 +27,7 @@ final class NotificationPermissionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let swiftUIView = NotificationPermissionView(
+        let swiftUIView = AlertOptInView(
             onAccept: { [weak self] in self?.handleAccept() },
             onDecline: { [weak self] in self?.handleDecline() }
         )
@@ -51,15 +51,15 @@ final class NotificationPermissionViewController: UIViewController {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { [weak self] granted, _ in
                     DispatchQueue.main.async {
                         if granted {
-                            NotificationPermissionManager.shared.recordCustomAccept()
-                            NotificationPermissionManager.shared.markShouldSendTokenOnce()
+                            AlertOptInCoordinator.shared.recordCustomAccept()
+                            AlertOptInCoordinator.shared.markShouldSendTokenOnce()
                             UIApplication.shared.registerForRemoteNotifications()
                         }
                         self?.showWebView()
                     }
                 }
             case .authorized, .provisional, .ephemeral:
-                NotificationPermissionManager.shared.recordCustomAccept()
+                AlertOptInCoordinator.shared.recordCustomAccept()
                 DispatchQueue.main.async { [weak self] in
                     self?.showWebView()
                 }
@@ -76,12 +76,12 @@ final class NotificationPermissionViewController: UIViewController {
     }
 
     private func handleDecline() {
-        NotificationPermissionManager.shared.recordCustomDecline()
+        AlertOptInCoordinator.shared.recordCustomDecline()
         showWebView()
     }
 
     private func showWebView() {
-        let webVC = WebviewVC(url: url)
+        let webVC = PortalWebController(url: url)
         window?.rootViewController = webVC
     }
 }

@@ -9,7 +9,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = LoadingManager.shared.makeRootViewController()
+        window?.rootViewController = GateRootFactory.shared.makeRootViewController()
         window?.makeKeyAndVisible()
         handleDeepLinkConnectionOptions(connectionOptions)
     }
@@ -46,9 +46,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func routePendingPushURLIfNeeded(in scene: UIScene) {
         guard let windowScene = scene as? UIWindowScene else { return }
-        guard let url = PushNotificationURLRouter.shared.consumePendingURL() else { return }
+        guard let url = PushDeepLinkBuffer.shared.consumePendingURL() else { return }
 
         let window = windowScene.windows.first(where: { $0.isKeyWindow }) ?? windowScene.windows.first
-        window?.rootViewController = WebviewVC(url: url)
+        window?.rootViewController = PortalWebController(url: url)
     }
 }

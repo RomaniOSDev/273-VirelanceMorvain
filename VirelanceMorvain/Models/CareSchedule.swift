@@ -1,17 +1,17 @@
 import Foundation
 
-struct MealPlan: Codable {
-    /// yyyy-MM-dd → recipe IDs for that day
+struct CareSchedule: Codable {
+    /// yyyy-MM-dd → plant IDs tended on that day
     var assignments: [String: [UUID]]
 
-    static let empty = MealPlan(assignments: [:])
+    static let empty = CareSchedule(assignments: [:])
 
-    func recipeIDs(for dayKey: String) -> [UUID] {
+    func plantIDs(for dayKey: String) -> [UUID] {
         assignments[dayKey] ?? []
     }
 }
 
-enum MealPlanCalendar {
+enum CareScheduleCalendar {
     static let dayFormatter: DateFormatter = {
         let f = DateFormatter()
         f.calendar = Calendar.current

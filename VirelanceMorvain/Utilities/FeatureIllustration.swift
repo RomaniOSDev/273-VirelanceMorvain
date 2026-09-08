@@ -31,24 +31,24 @@ struct CategoryArtwork: View {
 
     private var icon: String {
         switch category.lowercased() {
-        case "poultry": return "flame.fill"
-        case "vegetarian": return "leaf.fill"
-        case "pasta": return "fork.knife"
-        case "breakfast": return "sun.max.fill"
-        case "seafood": return "drop.fill"
-        case "soup": return "mug.fill"
-        default: return "fork.knife"
+        case "tropical": return "leaf.fill"
+        case "succulent": return "circle.hexagongrid.fill"
+        case "fern": return "laurel.leading"
+        case "flowering": return "sparkles"
+        case "trailing": return "arrow.triangle.swap"
+        case "low light": return "moon.fill"
+        default: return "leaf.fill"
         }
     }
 
     private var tint: Color {
         switch category.lowercased() {
-        case "poultry": return Color("AppPrimary")
-        case "vegetarian": return Color(red: 0.35, green: 0.78, blue: 0.45)
-        case "pasta": return Color(red: 1.0, green: 0.62, blue: 0.22)
-        case "breakfast": return Color(red: 1.0, green: 0.78, blue: 0.28)
-        case "seafood": return Color(red: 0.35, green: 0.72, blue: 0.95)
-        case "soup": return Color(red: 0.85, green: 0.45, blue: 0.28)
+        case "tropical": return Color(red: 0.28, green: 0.72, blue: 0.48)
+        case "succulent": return Color(red: 0.45, green: 0.70, blue: 0.40)
+        case "fern": return Color(red: 0.22, green: 0.55, blue: 0.38)
+        case "flowering": return Color(red: 0.85, green: 0.45, blue: 0.55)
+        case "trailing": return Color(red: 0.35, green: 0.65, blue: 0.55)
+        case "low light": return Color(red: 0.45, green: 0.55, blue: 0.75)
         default: return Color("AppAccent")
         }
     }

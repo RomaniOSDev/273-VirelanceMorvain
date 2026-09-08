@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct ShoppingTimersView: View {
+struct SuppliesTimersView: View {
     @EnvironmentObject private var store: AppDataStore
     @Environment(\.colorScheme) private var colorScheme
     @State private var segment = 0
     @State private var newItemName = ""
-    @State private var newItemCategory: ShoppingCategory = .produce
+    @State private var newItemCategory: SupplyCategory = .soil
     @State private var newTimerTitle = ""
     @State private var newTimerMinutes = 10
 
@@ -16,8 +16,8 @@ struct ShoppingTimersView: View {
 
                 VStack(spacing: 12) {
                     Picker("Section", selection: $segment) {
-                        Text("Shopping Essentials").tag(0)
-                        Text("Meal Prep Timers").tag(1)
+                        Text("Garden Supplies").tag(0)
+                        Text("Care Timers").tag(1)
                     }
                     .pickerStyle(.segmented)
                     .padding(.horizontal, 16)
@@ -27,13 +27,13 @@ struct ShoppingTimersView: View {
                     }
 
                     if segment == 0 {
-                        shoppingContent
+                        suppliesContent
                     } else {
                         timersContent
                     }
                 }
             }
-            .navigationTitle(segment == 0 ? "Shopping Essentials" : "Meal Prep Timers")
+            .navigationTitle(segment == 0 ? "Garden Supplies" : "Care Timers")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color("AppSurface"), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
@@ -41,13 +41,13 @@ struct ShoppingTimersView: View {
         }
     }
 
-    private var shoppingContent: some View {
+    private var suppliesContent: some View {
         VStack(spacing: 12) {
             HStack(spacing: 8) {
                 TextField("Add item", text: $newItemName)
                     .textFieldStyle(AppTextFieldStyle())
                 Picker("Category", selection: $newItemCategory) {
-                    ForEach(ShoppingCategory.allCases) { category in
+                    ForEach(SupplyCategory.allCases) { category in
                         Text(category.rawValue).tag(category)
                     }
                 }
@@ -58,7 +58,7 @@ struct ShoppingTimersView: View {
                 .background(Color("AppSurface"))
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 Button {
-                    store.addShoppingItem(name: newItemName, category: newItemCategory)
+                    store.addSupplyItem(name: newItemName, category: newItemCategory)
                     newItemName = ""
                 } label: {
                     Image(systemName: "plus.circle.fill")
@@ -69,14 +69,14 @@ struct ShoppingTimersView: View {
             .padding(.horizontal, 16)
 
             List {
-                ForEach(ShoppingCategory.allCases) { category in
-                    let items = store.shoppingItems.filter { $0.category == category }
+                ForEach(SupplyCategory.allCases) { category in
+                    let items = store.supplyItems.filter { $0.category == category }
                     if !items.isEmpty {
                         Section(category.rawValue) {
                             ForEach(items) { item in
                                 HStack {
                                     Button {
-                                        store.toggleShoppingItem(item)
+                                        store.toggleSupplyItem(item)
                                     } label: {
                                         Image(systemName: item.isCompleted ? "checkmark.circle.fill" : "circle")
                                             .foregroundColor(item.isCompleted ? Color("AppAccent") : Color("AppTextSecondary"))
@@ -90,7 +90,7 @@ struct ShoppingTimersView: View {
                                     Spacer()
 
                                     Button {
-                                        store.deleteShoppingItem(item)
+                                        store.deleteSupplyItem(item)
                                     } label: {
                                         Image(systemName: "trash")
                                             .foregroundColor(Color("AppPrimary"))
@@ -152,7 +152,7 @@ struct ShoppingTimersView: View {
         }
     }
 
-    private func displayTimer(_ timer: PrepTimer, at date: Date) -> PrepTimer {
+    private func displayTimer(_ timer: CareTimer, at date: Date) -> CareTimer {
         var copy = timer
         copy.syncRemaining(now: date)
         return copy
@@ -180,7 +180,7 @@ struct ShoppingTimersView: View {
 }
 
 private struct TimerRow: View {
-    let timer: PrepTimer
+    let timer: CareTimer
     let onStart: () -> Void
     let onPause: () -> Void
     let onDelete: () -> Void

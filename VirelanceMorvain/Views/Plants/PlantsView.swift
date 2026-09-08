@@ -1,30 +1,30 @@
 import SwiftUI
 
-struct RecipesView: View {
+struct PlantsView: View {
     @EnvironmentObject private var store: AppDataStore
     @State private var searchText = ""
     @State private var showFavoritesOnly = false
     @State private var selectedCategory = "All"
-    @State private var selectedDifficulty: RecipeDifficulty? = nil
-    @State private var maxCookTime = 60
+    @State private var selectedDifficulty: CareDifficulty? = nil
+    @State private var maxCareMinutes = 60
     @State private var showEditor = false
     @State private var showFilters = false
 
     private var categories: [String] {
-        ["All"] + Array(Set(store.recipes.map(\.category))).sorted()
+        ["All"] + Array(Set(store.plants.map(\.category))).sorted()
     }
 
-    private var filtered: [Recipe] {
-        store.recipes.filter { recipe in
-            let categoryMatch = selectedCategory == "All" || recipe.category == selectedCategory
-            let favoriteMatch = !showFavoritesOnly || recipe.isFavorite
-            let difficultyMatch = selectedDifficulty == nil || recipe.difficulty == selectedDifficulty
-            let timeMatch = recipe.cookTimeMinutes <= maxCookTime
+    private var filtered: [Plant] {
+        store.plants.filter { plant in
+            let categoryMatch = selectedCategory == "All" || plant.category == selectedCategory
+            let favoriteMatch = !showFavoritesOnly || plant.isFavorite
+            let difficultyMatch = selectedDifficulty == nil || plant.difficulty == selectedDifficulty
+            let timeMatch = plant.careMinutes <= maxCareMinutes
             let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
             let searchMatch = query.isEmpty
-                || recipe.title.localizedCaseInsensitiveContains(query)
-                || recipe.ingredients.contains { $0.localizedCaseInsensitiveContains(query) }
-                || recipe.category.localizedCaseInsensitiveContains(query)
+                || plant.title.localizedCaseInsensitiveContains(query)
+                || plant.materials.contains { $0.localizedCaseInsensitiveContains(query) }
+                || plant.category.localizedCaseInsensitiveContains(query)
             return categoryMatch && favoriteMatch && difficultyMatch && timeMatch && searchMatch
         }
     }
@@ -40,7 +40,7 @@ struct RecipesView: View {
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(Color("AppTextSecondary"))
-                        TextField("Search recipes or ingredients", text: $searchText)
+                        TextField("Search plants or materials", text: $searchText)
                             .foregroundColor(Color("AppTextPrimary"))
                             .textInputAutocapitalization(.never)
                             .disableAutocorrection(true)
@@ -86,17 +86,17 @@ struct RecipesView: View {
                     .padding(.bottom, 8)
 
                     List {
-                        ForEach(filtered) { recipe in
-                            NavigationLink(value: recipe) {
-                                RecipeRow(recipe: recipe) {
-                                    store.toggleFavorite(recipe)
+                        ForEach(filtered) { plant in
+                            NavigationLink(value: plant) {
+                                PlantRow(plant: plant) {
+                                    store.toggleFavorite(plant)
                                 }
                             }
                             .listRowBackground(Color("AppSurface").opacity(0.85))
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                if recipe.isCustom {
+                                if plant.isCustom {
                                     Button(role: .destructive) {
-                                        store.deleteRecipe(recipe)
+                                        store.deletePlant(plant)
                                     } label: {
                                         Label("Delete", systemImage: "trash")
                                     }
@@ -109,38 +109,55 @@ struct RecipesView: View {
                 }
             }
             .navigationBarHidden(true)
-            .navigationDestination(for: Recipe.self) { recipe in
-                RecipeDetailView(recipe: recipe)
+            .navigationDestination(for: Plant.self) { plant in
+                PlantDetailView(plant: plant)
             }
             .sheet(isPresented: $showEditor) {
-                RecipeEditorView(recipe: nil)
+                PlantEditorView(plant: nil)
                     .environmentObject(store)
             }
         }
     }
 
     private var header: some View {
-        HStack(spacing: 14) {
-            FeatureIllustration(systemName: "fork.knife", accent: Color("AppPrimary"), size: 44)
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Kitchen")
-                    .font(.system(size: 14, weight: .semibold, design: .rounded))
-                    .foregroundColor(Color("AppAccent"))
-                Text("Culinary Compendium")
-                    .font(.system(size: 22, weight: .bold, design: .rounded))
-                    .foregroundColor(Color("AppTextPrimary"))
+        VStack(spacing: 12) {
+            Image("banner")
+                .resizable()
+                .scaledToFill()
+                .frame(height: 110)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(Color("AppPrimary").opacity(0.25), lineWidth: 1)
+                )
+                .padding(.horizontal, 16)
+
+            HStack(spacing: 14) {
+                Image("card_art")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 56, height: 56)
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Atelier")
+                        .font(.system(size: 14, weight: .semibold, design: .rounded))
+                        .foregroundColor(Color("AppAccent"))
+                    Text("Living Collection")
+                        .font(.system(size: 22, weight: .bold, design: .rounded))
+                        .foregroundColor(Color("AppTextPrimary"))
+                }
+                Spacer()
+                Button {
+                    showEditor = true
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(Color("AppPrimary"))
+                }
+                .accessibilityLabel("Add plant")
             }
-            Spacer()
-            Button {
-                showEditor = true
-            } label: {
-                Image(systemName: "plus.circle.fill")
-                    .font(.title2)
-                    .foregroundColor(Color("AppPrimary"))
-            }
-            .accessibilityLabel("Add recipe")
+            .padding(.horizontal, 16)
         }
-        .padding(.horizontal, 16)
         .padding(.top, 12)
         .padding(.bottom, 8)
     }
@@ -154,7 +171,7 @@ struct RecipesView: View {
                 chip("Any", selected: selectedDifficulty == nil) {
                     selectedDifficulty = nil
                 }
-                ForEach(RecipeDifficulty.allCases) { level in
+                ForEach(CareDifficulty.allCases) { level in
                     chip(level.label, selected: selectedDifficulty == level) {
                         selectedDifficulty = level
                     }
@@ -162,14 +179,14 @@ struct RecipesView: View {
             }
 
             HStack {
-                Text("Max time: \(maxCookTime) min")
+                Text("Max time: \(maxCareMinutes) min")
                     .font(.system(size: 13, weight: .semibold, design: .rounded))
                     .foregroundColor(Color("AppTextSecondary"))
                 Spacer()
             }
             Slider(value: Binding(
-                get: { Double(maxCookTime) },
-                set: { maxCookTime = Int($0) }
+                get: { Double(maxCareMinutes) },
+                set: { maxCareMinutes = Int($0) }
             ), in: 10...90, step: 5)
             .tint(Color("AppPrimary"))
         }
@@ -193,20 +210,20 @@ struct RecipesView: View {
     }
 }
 
-private struct RecipeRow: View {
-    let recipe: Recipe
+private struct PlantRow: View {
+    let plant: Plant
     let onFavorite: () -> Void
 
     var body: some View {
         HStack(spacing: 12) {
-            CategoryArtwork(category: recipe.category, size: 56)
+            CategoryArtwork(category: plant.category, size: 56)
 
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
-                    Text(recipe.title)
+                    Text(plant.title)
                         .font(.system(size: 16, weight: .semibold, design: .rounded))
                         .foregroundColor(Color("AppTextPrimary"))
-                    if recipe.isCustom {
+                    if plant.isCustom {
                         Text("Yours")
                             .font(.system(size: 10, weight: .bold, design: .rounded))
                             .foregroundColor(Color("AppPrimary"))
@@ -216,7 +233,7 @@ private struct RecipeRow: View {
                             .clipShape(Capsule())
                     }
                 }
-                Text("\(recipe.category) · \(recipe.difficulty.label) · \(recipe.cookTimeMinutes) min")
+                Text("\(plant.category) · \(plant.difficulty.label) · \(plant.careMinutes) min")
                     .font(.system(size: 12, weight: .regular, design: .rounded))
                     .foregroundColor(Color("AppTextSecondary"))
             }
@@ -224,7 +241,7 @@ private struct RecipeRow: View {
             Spacer()
 
             Button(action: onFavorite) {
-                Image(systemName: recipe.isFavorite ? "heart.fill" : "heart")
+                Image(systemName: plant.isFavorite ? "heart.fill" : "heart")
                     .foregroundColor(Color("AppAccent"))
             }
             .buttonStyle(.plain)

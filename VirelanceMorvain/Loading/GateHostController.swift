@@ -1,9 +1,9 @@
 //
-//  LoadingViewController.swift
+//  GateHostController.swift
 //  1TrulbargrovarStrinel
 //
 //  Показывает загрузку в стиле приложения (градиент + анимированный индикатор), запрашивает конфиг,
-//  затем переходит на ContentView или WebviewVC. Адаптируется под портрет и ландшафт.
+//  затем переходит на ContentView или PortalWebController. Адаптируется под портрет и ландшафт.
 //
 
 import Network
@@ -19,9 +19,9 @@ private let ordinaryStartDelayInterval: TimeInterval = 5
 /// Окно свежести conversion data: данные старше считаются устаревшими для config-запроса.
 private let conversionDataFreshnessInterval: TimeInterval = 120
 
-final class LoadingViewController: UIViewController {
+final class GateHostController: UIViewController {
 
-    private let loadingHosting = UIHostingController(rootView: AnyView(LoadingView()))
+    private let loadingHosting = UIHostingController(rootView: AnyView(GateSplashView()))
     private var didFinishTransition = false
     private var timeoutWorkItem: DispatchWorkItem?
     private var conversionWaitWorkItem: DispatchWorkItem?
@@ -61,12 +61,12 @@ final class LoadingViewController: UIViewController {
 
     private func startConfigFlow() {
         if didFinishTransition { return }
-        if let pushURL = PushNotificationURLRouter.shared.consumePendingURL() {
+        if let pushURL = PushDeepLinkBuffer.shared.consumePendingURL() {
             ordinaryStartWorkItem?.cancel()
             ordinaryStartWorkItem = nil
             isConfigFlowInProgress = true
             didFinishTransition = true
-            replaceRoot(with: WebviewVC(url: pushURL))
+            replaceRoot(with: PortalWebController(url: pushURL))
             return
         }
 
@@ -100,8 +100,8 @@ final class LoadingViewController: UIViewController {
         didRetryConfigAfterFailure = false
         showLoadingState()
         // Устаревшие данные из прошлой сессии сбрасываем, чтобы дождаться свежей атрибуции от SDK.
-        AppsFlyerManager.shared.clearConversionDataIfStale(olderThan: conversionDataFreshnessInterval)
-        AppsFlyerManager.shared.restartConversionFetch()
+        ConversionPayloadStore.shared.clearConversionDataIfStale(olderThan: conversionDataFreshnessInterval)
+        ConversionPayloadStore.shared.restartConversionFetch()
         startConfigFlowWithoutPush()
     }
 
@@ -110,7 +110,7 @@ final class LoadingViewController: UIViewController {
         isConfigFlowInProgress = true
         showLoadingState()
 
-        NetworkAvailability.checkConnection { [weak self] isConnected in
+        LinkPathMonitor.checkConnection { [weak self] isConnected in
             guard let self = self, !self.didFinishTransition else { return }
             if !isConnected {
                 self.showNoInternetState()
@@ -130,7 +130,7 @@ final class LoadingViewController: UIViewController {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + maxLoadingTimeInterval, execute: timeoutWorkItem!)
 
-        if ConfigManager.shared.isSavedURLValid, let url = ConfigManager.shared.savedURL {
+        if RemoteGateConfig.shared.isSavedURLValid, let url = RemoteGateConfig.shared.savedURL {
             cancelScheduledWork()
             transitionToWebView(url: url)
             return
@@ -140,7 +140,7 @@ final class LoadingViewController: UIViewController {
     }
 
     private func showLoadingState() {
-        loadingHosting.rootView = AnyView(LoadingView())
+        loadingHosting.rootView = AnyView(GateSplashView())
     }
 
     private func showNoInternetState() {
@@ -151,7 +151,7 @@ final class LoadingViewController: UIViewController {
         cancelScheduledWork()
         startOfflineNetworkMonitoring()
         loadingHosting.rootView = AnyView(
-            NoInternetView(
+            OfflineGateView(
                 onRetry: { [weak self] in
                     self?.retryAfterNoInternet()
                 }
@@ -169,7 +169,7 @@ final class LoadingViewController: UIViewController {
                       self.isShowingNoInternet,
                       !self.didFinishTransition,
                       path.status == .satisfied else { return }
-                AppsFlyerManager.shared.restartConversionFetch()
+                ConversionPayloadStore.shared.restartConversionFetch()
             }
         }
         monitor.start(queue: DispatchQueue(label: "loading.offline.network"))
@@ -195,7 +195,7 @@ final class LoadingViewController: UIViewController {
         guard !didFinishTransition else { return }
 
         if isShowingNoInternet {
-            NetworkAvailability.checkConnection { [weak self] isConnected in
+            LinkPathMonitor.checkConnection { [weak self] isConnected in
                 guard let self, isConnected else { return }
                 self.retryAfterNoInternet()
             }
@@ -229,7 +229,7 @@ final class LoadingViewController: UIViewController {
         guard !didFinishTransition else { return }
         if didStartConfigRequest { return }
 
-        if AppsFlyerManager.shared.conversionDataString != nil {
+        if ConversionPayloadStore.shared.conversionDataString != nil {
             performConfigRequest()
             return
         }
@@ -241,7 +241,7 @@ final class LoadingViewController: UIViewController {
     private func performConfigRequest() {
         guard !didFinishTransition, !didStartConfigRequest else { return }
 
-        guard AppsFlyerManager.shared.conversionDataString != nil else {
+        guard ConversionPayloadStore.shared.conversionDataString != nil else {
             waitForConversionDataThenRequestConfig()
             return
         }
@@ -250,7 +250,7 @@ final class LoadingViewController: UIViewController {
         isAwaitingConversionData = false
         cancelScheduledWork()
 
-        ConfigManager.shared.requestConfig { [weak self] result in
+        RemoteGateConfig.shared.requestConfig { [weak self] result in
             guard let self = self, !self.didFinishTransition else { return }
             switch result {
             case .success(let response):
@@ -269,7 +269,7 @@ final class LoadingViewController: UIViewController {
     private func handleConfigFailure() {
         didStartConfigRequest = false
 
-        if let url = ConfigManager.shared.savedURL {
+        if let url = RemoteGateConfig.shared.savedURL {
             removeConversionObserver()
             transitionToWebView(url: url)
             return
@@ -283,9 +283,9 @@ final class LoadingViewController: UIViewController {
         // делаем одну повторную попытку: ждём реальную атрибуцию от SDK и шлём конфиг заново,
         // вместо мгновенного ухода в ContentView.
         if !didRetryConfigAfterFailure,
-           !AppsFlyerManager.shared.hasFreshConversionData(within: conversionDataFreshnessInterval) {
+           !ConversionPayloadStore.shared.hasFreshConversionData(within: conversionDataFreshnessInterval) {
             didRetryConfigAfterFailure = true
-            AppsFlyerManager.shared.clearStoredConversionString()
+            ConversionPayloadStore.shared.clearStoredConversionString()
             waitForConversionDataThenRequestConfig()
             return
         }
@@ -298,13 +298,13 @@ final class LoadingViewController: UIViewController {
         subscribeToConversionDataNotifications()
         isAwaitingConversionData = true
 
-        if AppsFlyerManager.shared.conversionDataString != nil {
+        if ConversionPayloadStore.shared.conversionDataString != nil {
             isAwaitingConversionData = false
             performConfigRequest()
             return
         }
 
-        AppsFlyerManager.shared.restartConversionFetch()
+        ConversionPayloadStore.shared.restartConversionFetch()
 
         conversionWaitWorkItem?.cancel()
         conversionWaitWorkItem = DispatchWorkItem { [weak self] in
@@ -312,7 +312,7 @@ final class LoadingViewController: UIViewController {
             guard !self.didFinishTransition, !self.didStartConfigRequest else { return }
             self.isAwaitingConversionData = false
 
-            if AppsFlyerManager.shared.conversionDataString != nil {
+            if ConversionPayloadStore.shared.conversionDataString != nil {
                 self.performConfigRequest()
             } else {
                 self.transitionToContentViewOrSavedWebView()
@@ -324,7 +324,7 @@ final class LoadingViewController: UIViewController {
     private func transitionToContentViewOrSavedWebView() {
         stopOfflineNetworkMonitoring()
         removeConversionObserver()
-        if let url = ConfigManager.shared.savedURL {
+        if let url = RemoteGateConfig.shared.savedURL {
             transitionToWebView(url: url)
         } else {
             transitionToContentView()
@@ -333,15 +333,15 @@ final class LoadingViewController: UIViewController {
 
     private func transitionToWebView(url: URL) {
         stopOfflineNetworkMonitoring()
-        NotificationPermissionManager.shared.shouldShowCustomNotificationScreen { [weak self] shouldShow in
+        AlertOptInCoordinator.shared.shouldShowCustomNotificationScreen { [weak self] shouldShow in
             guard let self = self, !self.didFinishTransition else { return }
             self.didFinishTransition = true
             self.removeConversionObserver()
             if shouldShow {
-                let notificationVC = NotificationPermissionViewController(url: url, window: self.view.window)
+                let notificationVC = AlertOptInHostController(url: url, window: self.view.window)
                 self.replaceRoot(with: notificationVC)
             } else {
-                self.replaceRoot(with: WebviewVC(url: url))
+                self.replaceRoot(with: PortalWebController(url: url))
             }
         }
     }

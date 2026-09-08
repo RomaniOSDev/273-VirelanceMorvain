@@ -1,5 +1,5 @@
 //
-//  NotificationPermissionView.swift
+//  AlertOptInView.swift
 //  1TrulbargrovarStrinel
 //
 //  Custom notification permission screen before WebView.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct NotificationPermissionView: View {
+struct AlertOptInView: View {
     var onAccept: () -> Void
     var onDecline: () -> Void
 
@@ -97,5 +97,5 @@ struct NotificationPermissionView: View {
 }
 
 #Preview {
-    NotificationPermissionView(onAccept: {}, onDecline: {})
+    AlertOptInView(onAccept: {}, onDecline: {})
 }

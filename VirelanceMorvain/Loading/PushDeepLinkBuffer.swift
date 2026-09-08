@@ -1,5 +1,5 @@
 //
-//  PushNotificationURLRouter.swift
+//  PushDeepLinkBuffer.swift
 //  1TrulbargrovarStrinel
 //
 //  Extracts URL from push payload and stores one-time pending URL.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class PushNotificationURLRouter {
-    static let shared = PushNotificationURLRouter()
+final class PushDeepLinkBuffer {
+    static let shared = PushDeepLinkBuffer()
 
     private init() {}
 

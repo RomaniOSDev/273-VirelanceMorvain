@@ -6,7 +6,7 @@ struct StatsView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     private var categoryData: [(name: String, count: Int)] {
-        let grouped = Dictionary(grouping: store.recipes.filter(\.viewed), by: \.category)
+        let grouped = Dictionary(grouping: store.plants.filter(\.viewed), by: \.category)
         return grouped
             .map { (name: $0.key, count: $0.value.count) }
             .sorted { $0.count > $1.count }
@@ -14,10 +14,10 @@ struct StatsView: View {
 
     private var overviewData: [(label: String, value: Int, color: Color)] {
         [
-            ("Viewed", store.stats.recipesViewed, Color("AppPrimary")),
+            ("Viewed", store.stats.plantsViewed, Color("AppPrimary")),
             ("Lists", store.stats.listsCompleted, Color(red: 0.35, green: 0.72, blue: 0.95)),
             ("Streak", store.stats.streakDays, Color(red: 1.0, green: 0.62, blue: 0.22)),
-            ("Favorites", store.recipes.filter(\.isFavorite).count, Color("AppAccent")),
+            ("Favorites", store.plants.filter(\.isFavorite).count, Color("AppAccent")),
             ("Timers", store.stats.timersCompleted, Color(red: 0.35, green: 0.78, blue: 0.45))
         ]
     }
@@ -26,9 +26,9 @@ struct StatsView: View {
         store.stats.lastSevenDaysActivity()
     }
 
-    private var shoppingProgress: (done: Int, left: Int) {
-        let done = store.shoppingItems.filter(\.isCompleted).count
-        let left = store.shoppingItems.count - done
+    private var suppliesProgress: (done: Int, left: Int) {
+        let done = store.supplyItems.filter(\.isCompleted).count
+        let left = store.supplyItems.count - done
         return (done, max(left, 0))
     }
 
@@ -82,7 +82,7 @@ struct StatsView: View {
                         }
 
                         if !categoryData.isEmpty {
-                            chartCard(title: "Recipes by Category") {
+                            chartCard(title: "Plants by Category") {
                                 Chart(categoryData, id: \.name) { item in
                                     BarMark(
                                         x: .value("Count", item.count),
@@ -95,16 +95,16 @@ struct StatsView: View {
                             }
                         }
 
-                        chartCard(title: "Shopping Progress") {
-                            let total = max(shoppingProgress.done + shoppingProgress.left, 1)
+                        chartCard(title: "Supplies Progress") {
+                            let total = max(suppliesProgress.done + suppliesProgress.left, 1)
                             VStack(alignment: .leading, spacing: 12) {
-                                ProgressView(value: Double(shoppingProgress.done), total: Double(total))
+                                ProgressView(value: Double(suppliesProgress.done), total: Double(total))
                                     .tint(Color("AppPrimary"))
                                 HStack {
-                                    Label("\(shoppingProgress.done) done", systemImage: "checkmark.circle.fill")
+                                    Label("\(suppliesProgress.done) done", systemImage: "checkmark.circle.fill")
                                         .foregroundColor(Color("AppAccent"))
                                     Spacer()
-                                    Label("\(shoppingProgress.left) left", systemImage: "circle")
+                                    Label("\(suppliesProgress.left) left", systemImage: "circle")
                                         .foregroundColor(Color("AppTextSecondary"))
                                 }
                                 .font(.system(size: 13, weight: .medium, design: .rounded))
@@ -155,11 +155,11 @@ struct StatsView: View {
                 .font(.system(size: 18, weight: .semibold, design: .rounded))
                 .foregroundColor(Color("AppAccent"))
 
-            milestoneRow("First Recipe", unlocked: store.stats.recipesViewed >= 1)
-            milestoneRow("Curious Cook", unlocked: store.stats.recipesViewed >= 5)
-            milestoneRow("List Finisher", unlocked: store.stats.listsCompleted >= 1)
+            milestoneRow("First Plant", unlocked: store.stats.plantsViewed >= 1)
+            milestoneRow("Curious Grower", unlocked: store.stats.plantsViewed >= 5)
+            milestoneRow("Supply Finisher", unlocked: store.stats.listsCompleted >= 1)
             milestoneRow("Steady Streak", unlocked: store.stats.streakDays >= 3)
-            milestoneRow("Timer Pro", unlocked: store.stats.timersCompleted >= 3)
+            milestoneRow("Care Timer Pro", unlocked: store.stats.timersCompleted >= 3)
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)

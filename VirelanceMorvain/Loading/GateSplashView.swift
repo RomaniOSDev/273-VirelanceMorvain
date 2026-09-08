@@ -1,5 +1,5 @@
 //
-//  LoadingView.swift
+//  GateSplashView.swift
 //  1TrulbargrovarStrinel
 //
 //  Экран загрузки в стиле приложения: градиент, анимированный индикатор.
@@ -9,7 +9,7 @@
 import SwiftUI
 
 /// Три точки с последовательной пульсацией (анимированный индикатор).
-struct AnimatedLoadingIndicator: View {
+struct PulseDotIndicator: View {
     var body: some View {
         TimelineView(.animation(minimumInterval: 1/30)) { context in
             let t = context.date.timeIntervalSinceReferenceDate
@@ -40,7 +40,7 @@ struct AnimatedLoadingIndicator: View {
 }
 
 /// Кольцо загрузки с вращением и градиентом.
-struct RingLoadingIndicator: View {
+struct OrbitRingIndicator: View {
     @State private var rotation: Double = 0
 
     var body: some View {
@@ -69,7 +69,7 @@ struct RingLoadingIndicator: View {
 }
 
 /// Полноэкранный экран загрузки: градиент как в приложении + анимированный индикатор.
-struct LoadingView: View {
+struct GateSplashView: View {
     var body: some View {
         ZStack {
             LinearGradient(
@@ -80,8 +80,8 @@ struct LoadingView: View {
             .ignoresSafeArea()
 
             VStack(spacing: 24) {
-                RingLoadingIndicator()
-                AnimatedLoadingIndicator()
+                OrbitRingIndicator()
+                PulseDotIndicator()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
@@ -89,5 +89,5 @@ struct LoadingView: View {
 }
 
 #Preview {
-    LoadingView()
+    GateSplashView()
 }

@@ -1,5 +1,5 @@
 //
-//  NotificationPermissionManager.swift
+//  AlertOptInCoordinator.swift
 //  1TrulbargrovarStrinel
 //
 //  Stores when the user declined the custom notification screen.
@@ -9,40 +9,40 @@
 import Foundation
 import UserNotifications
 
-enum NotificationPermissionKeys {
-    static let lastCustomDeclineDate = "NotificationPermissionLastCustomDeclineDate"
-    static let shouldSendTokenOnce = "NotificationPermissionShouldSendTokenOnce"
-    static let acceptedOnce = "NotificationPermissionAcceptedOnce"
+enum AlertOptInKeys {
+    static let lastCustomDeclineDate = "AlertOptInLastDeclineDate"
+    static let shouldSendTokenOnce = "AlertOptInShouldSendTokenOnce"
+    static let acceptedOnce = "AlertOptInAcceptedOnce"
 }
 
 private let customDeclineCooldownDays: Int = 3
 
-final class NotificationPermissionManager {
+final class AlertOptInCoordinator {
 
-    static let shared = NotificationPermissionManager()
+    static let shared = AlertOptInCoordinator()
 
     private init() {}
 
     /// Call when user taps "Decline" on the custom notification screen.
     func recordCustomDecline() {
-        UserDefaults.standard.set(Date(), forKey: NotificationPermissionKeys.lastCustomDeclineDate)
+        UserDefaults.standard.set(Date(), forKey: AlertOptInKeys.lastCustomDeclineDate)
     }
 
     /// Call when user taps "Enable" and grants notifications at least once.
     func recordCustomAccept() {
-        UserDefaults.standard.set(true, forKey: NotificationPermissionKeys.acceptedOnce)
+        UserDefaults.standard.set(true, forKey: AlertOptInKeys.acceptedOnce)
     }
 
     /// Mark that after the next FCM token reception we should send config once with push token.
     func markShouldSendTokenOnce() {
-        UserDefaults.standard.set(true, forKey: NotificationPermissionKeys.shouldSendTokenOnce)
+        UserDefaults.standard.set(true, forKey: AlertOptInKeys.shouldSendTokenOnce)
     }
 
     /// Returns true once when a token-triggered config request should be sent, then resets the flag.
     func consumeShouldSendTokenOnce() -> Bool {
-        let flag = UserDefaults.standard.bool(forKey: NotificationPermissionKeys.shouldSendTokenOnce)
+        let flag = UserDefaults.standard.bool(forKey: AlertOptInKeys.shouldSendTokenOnce)
         if flag {
-            UserDefaults.standard.set(false, forKey: NotificationPermissionKeys.shouldSendTokenOnce)
+            UserDefaults.standard.set(false, forKey: AlertOptInKeys.shouldSendTokenOnce)
         }
         return flag
     }
@@ -57,7 +57,7 @@ final class NotificationPermissionManager {
             }
 
             let shouldShow: Bool
-            if let date = UserDefaults.standard.object(forKey: NotificationPermissionKeys.lastCustomDeclineDate) as? Date {
+            if let date = UserDefaults.standard.object(forKey: AlertOptInKeys.lastCustomDeclineDate) as? Date {
                 let interval = Date().timeIntervalSince(date)
                 let threeDays: TimeInterval = TimeInterval(customDeclineCooldownDays * 24 * 60 * 60)
                 shouldShow = interval >= threeDays

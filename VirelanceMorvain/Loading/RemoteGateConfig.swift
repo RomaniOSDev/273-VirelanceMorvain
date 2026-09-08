@@ -1,5 +1,5 @@
 //
-//  ConfigManager.swift
+//  RemoteGateConfig.swift
 //  1TrulbargrovarStrinel
 //
 //  Запрос к эндпоинту конфига: сбор тела (конверсия AppsFlyer + af_id, bundle_id, os, store_id, locale, опционально push_token, firebase_project_id),
@@ -10,7 +10,7 @@ import Foundation
 import AppsFlyerLib
 
 /// Ответ эндпоинта конфига
-struct ConfigResponse {
+struct GateConfigPayload {
     let ok: Bool
     let url: String?
     let expires: Int64?
@@ -18,21 +18,21 @@ struct ConfigResponse {
 }
 
 /// Ключи для сохранения url и expires
-enum ConfigManagerKeys {
-    static let savedURL = "ConfigManagerSavedURL"
-    static let savedExpires = "ConfigManagerSavedExpires"
+enum GateConfigStoreKeys {
+    static let savedURL = "GateConfigSavedURL"
+    static let savedExpires = "GateConfigSavedExpires"
 }
 
 /// Провайдер опциональных данных (Firebase). Установите из AppDelegate при инициализации Firebase.
-enum ConfigManagerOptionalData {
+enum GateOptionalPayload {
     static var pushToken: String?
     static var firebaseProjectId: String?
 }
 
 /// Менеджер запроса конфига: формирует тело, отправляет POST, сохраняет url/expires.
-final class ConfigManager {
+final class RemoteGateConfig {
 
-    static let shared = ConfigManager()
+    static let shared = RemoteGateConfig()
 
     /// URL эндпоинта конфига.
     var configEndpointURL: URL? = URL(string: "https://virelancemorvain.com/config.php")
@@ -45,13 +45,13 @@ final class ConfigManager {
     // MARK: - Сохранённые url и expires
 
     var savedURL: URL? {
-        guard let raw = UserDefaults.standard.string(forKey: ConfigManagerKeys.savedURL) else { return nil }
+        guard let raw = UserDefaults.standard.string(forKey: GateConfigStoreKeys.savedURL) else { return nil }
         return URL(string: raw)
     }
 
     var savedExpires: Int64? {
-        let v = UserDefaults.standard.object(forKey: ConfigManagerKeys.savedExpires) as? Int64
-            ?? (UserDefaults.standard.object(forKey: ConfigManagerKeys.savedExpires) as? Int).map { Int64($0) }
+        let v = UserDefaults.standard.object(forKey: GateConfigStoreKeys.savedExpires) as? Int64
+            ?? (UserDefaults.standard.object(forKey: GateConfigStoreKeys.savedExpires) as? Int).map { Int64($0) }
         return v
     }
 
@@ -63,10 +63,10 @@ final class ConfigManager {
 
     private func saveResponse(url: String?, expires: Int64?) {
         if let url = url {
-            UserDefaults.standard.set(url, forKey: ConfigManagerKeys.savedURL)
+            UserDefaults.standard.set(url, forKey: GateConfigStoreKeys.savedURL)
         }
         if let expires = expires {
-            UserDefaults.standard.set(expires, forKey: ConfigManagerKeys.savedExpires)
+            UserDefaults.standard.set(expires, forKey: GateConfigStoreKeys.savedExpires)
         }
     }
 
@@ -77,7 +77,7 @@ final class ConfigManager {
         var body: [String: Any] = [:]
 
         // Данные конверсии (и UDL) — все параметры в неизменённом виде
-        if let conversionString = AppsFlyerManager.shared.conversionDataString,
+        if let conversionString = ConversionPayloadStore.shared.conversionDataString,
            let data = conversionString.data(using: .utf8),
            let conversion = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
             for (key, value) in conversion {
@@ -101,10 +101,10 @@ final class ConfigManager {
         if body["locale"] == nil {
             body["locale"] = Locale.current.identifier
         }
-        if let token = ConfigManagerOptionalData.pushToken, body["push_token"] == nil {
+        if let token = GateOptionalPayload.pushToken, body["push_token"] == nil {
             body["push_token"] = token
         }
-        if let projectId = ConfigManagerOptionalData.firebaseProjectId, body["firebase_project_id"] == nil {
+        if let projectId = GateOptionalPayload.firebaseProjectId, body["firebase_project_id"] == nil {
             body["firebase_project_id"] = projectId
         }
 
@@ -114,13 +114,13 @@ final class ConfigManager {
     // MARK: - Запрос к конфигу
 
     /// Выполняет POST к эндпоинту конфига. При успехе (200 и ok == true) сохраняет url и expires.
-    func requestConfig(completion: @escaping (Result<ConfigResponse, Error>) -> Void) {
+    func requestConfig(completion: @escaping (Result<GateConfigPayload, Error>) -> Void) {
         guard let endpoint = configEndpointURL else {
-            completion(.failure(ConfigError.missingEndpoint))
+            completion(.failure(GateConfigError.missingEndpoint))
             return
         }
         guard let body = buildRequestBody() else {
-            completion(.failure(ConfigError.failedToBuildBody))
+            completion(.failure(GateConfigError.failedToBuildBody))
             return
         }
 
@@ -137,7 +137,7 @@ final class ConfigManager {
             }
             let http = response as? HTTPURLResponse
             let statusCode = http?.statusCode ?? 0
-            let parsed = self?.parseConfigResponse(data: data, statusCode: statusCode) ?? .failure(ConfigError.invalidResponse)
+            let parsed = self?.parseGateConfigPayload(data: data, statusCode: statusCode) ?? .failure(GateConfigError.invalidResponse)
             if case .success(let config) = parsed, config.ok, let url = config.url {
                 self?.saveResponse(url: url, expires: config.expires)
             }
@@ -153,9 +153,9 @@ final class ConfigManager {
         task.resume()
     }
 
-    private func parseConfigResponse(data: Data?, statusCode: Int) -> Result<ConfigResponse, Error> {
+    private func parseGateConfigPayload(data: Data?, statusCode: Int) -> Result<GateConfigPayload, Error> {
         guard let data = data else {
-            return .failure(ConfigError.invalidResponse)
+            return .failure(GateConfigError.invalidResponse)
         }
         let ok = (statusCode == 200)
         var url: String?
@@ -170,11 +170,11 @@ final class ConfigManager {
             }
             message = json["message"] as? String
         }
-        return .success(ConfigResponse(ok: ok, url: url, expires: expires, message: message))
+        return .success(GateConfigPayload(ok: ok, url: url, expires: expires, message: message))
     }
 }
 
-enum ConfigError: LocalizedError {
+enum GateConfigError: LocalizedError {
     case missingEndpoint
     case failedToBuildBody
     case invalidResponse

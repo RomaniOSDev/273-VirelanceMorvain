@@ -1,6 +1,6 @@
 import Foundation
 
-struct PrepTimer: Identifiable, Codable, Hashable {
+struct CareTimer: Identifiable, Codable, Hashable {
     let id: UUID
     var title: String
     var durationSeconds: Int
@@ -35,7 +35,7 @@ struct PrepTimer: Identifiable, Codable, Hashable {
 }
 
 struct AchievementStats: Codable {
-    var recipesViewed: Int
+    var plantsViewed: Int
     var listsCompleted: Int
     var streakDays: Int
     var lastActiveDay: String?
@@ -43,7 +43,7 @@ struct AchievementStats: Codable {
     var activityByDay: [String: Int]
 
     static let empty = AchievementStats(
-        recipesViewed: 0,
+        plantsViewed: 0,
         listsCompleted: 0,
         streakDays: 0,
         lastActiveDay: nil,
@@ -52,18 +52,18 @@ struct AchievementStats: Codable {
     )
 
     enum CodingKeys: String, CodingKey {
-        case recipesViewed, listsCompleted, streakDays, lastActiveDay, timersCompleted, activityByDay
+        case plantsViewed, listsCompleted, streakDays, lastActiveDay, timersCompleted, activityByDay
     }
 
     init(
-        recipesViewed: Int,
+        plantsViewed: Int,
         listsCompleted: Int,
         streakDays: Int,
         lastActiveDay: String?,
         timersCompleted: Int = 0,
         activityByDay: [String: Int] = [:]
     ) {
-        self.recipesViewed = recipesViewed
+        self.plantsViewed = plantsViewed
         self.listsCompleted = listsCompleted
         self.streakDays = streakDays
         self.lastActiveDay = lastActiveDay
@@ -73,7 +73,7 @@ struct AchievementStats: Codable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        recipesViewed = try container.decodeIfPresent(Int.self, forKey: .recipesViewed) ?? 0
+        plantsViewed = try container.decodeIfPresent(Int.self, forKey: .plantsViewed) ?? 0
         listsCompleted = try container.decodeIfPresent(Int.self, forKey: .listsCompleted) ?? 0
         streakDays = try container.decodeIfPresent(Int.self, forKey: .streakDays) ?? 0
         lastActiveDay = try container.decodeIfPresent(String.self, forKey: .lastActiveDay)

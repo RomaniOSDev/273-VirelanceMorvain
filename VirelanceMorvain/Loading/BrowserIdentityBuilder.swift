@@ -1,5 +1,5 @@
 //
-//  UserAgentBuilder.swift
+//  BrowserIdentityBuilder.swift
 //  1TrulbargrovarStrinel
 //
 //  Builds a Safari-like User-Agent from actual device info (OS version, platform).
@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum UserAgentBuilder {
+enum BrowserIdentityBuilder {
 
     /// Builds a User-Agent string that reflects the current device (OS version, platform)
     /// and does not indicate in-app WebView usage. Uses only runtime device info.
