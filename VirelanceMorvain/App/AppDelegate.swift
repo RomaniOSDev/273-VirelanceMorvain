@@ -49,9 +49,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
     }
 
     private func capturePushURLFromLaunchOptions(_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
-        guard let userInfo = launchOptions?[.remoteNotification] as? [AnyHashable: Any],
-              let url = PushDeepLinkBuffer.shared.extractURL(from: userInfo) else { return }
-        PushDeepLinkBuffer.shared.setPendingURL(url)
+        guard let userInfo = launchOptions?[.remoteNotification] as? [AnyHashable: Any] else { return }
+        NotificationInteractionCallback.shared.handleNotificationOpen(userInfo: userInfo)
+        if let url = PushDeepLinkBuffer.shared.extractURL(from: userInfo) {
+            PushDeepLinkBuffer.shared.setPendingURL(url)
+        }
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -96,6 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         let userInfo = response.notification.request.content.userInfo
+        NotificationInteractionCallback.shared.handleNotificationOpen(userInfo: userInfo)
         if let url = PushDeepLinkBuffer.shared.extractURL(from: userInfo) {
             DispatchQueue.main.async { [weak self] in
                 self?.openPushURLInWebView(url)
